@@ -9,16 +9,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#15141a; --red:#c0221b; --paper:#f1efe9; --rule:rgba(88,104,122,.34); --desk:#1f1e1c;
+  --ink:#15141a; --red:#c0221b; --paper:#efede6; --rule:rgba(88,104,122,.34); --desk:#241811;
   --hw:'Kalam','Segoe Print','Bradley Hand','Comic Sans MS',cursive;
   --scrawl:'Reenie Beanie','Segoe Script','Bradley Hand','Comic Sans MS',cursive;
   --u:34px;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:#1a120c}
 html,body{margin:0}
+/* mesa de madeira escura (sem branco em lugar nenhum) */
 body{min-height:100vh;color:var(--ink);font:400 1.2rem/var(--u) var(--hw);
-  background:var(--desk) repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 7px),
-    radial-gradient(1200px 700px at 50% 35%,rgba(255,255,255,.05),transparent 70%);
+  background-color:var(--desk);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='520'%3E%3Cfilter id='w' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.004 .11' numOctaves='4' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 .44  0 0 0 0 .28  0 0 0 0 .16  1.6 0 0 0 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E"),
+    radial-gradient(900px 520px at 50% 26%,rgba(255,232,196,.12),transparent 70%),
+    radial-gradient(ellipse at 50% 40%,transparent 42%,rgba(0,0,0,.62) 100%);
+  background-size:900px 520px,auto,auto;
+  background-attachment:scroll,fixed,fixed;
   -webkit-print-color-adjust:exact;print-color-adjust:exact}
 button,input,textarea{font:inherit;color:inherit}
 :focus-visible{outline:2px dashed var(--red);outline-offset:3px}
@@ -28,23 +36,26 @@ button,input,textarea{font:inherit;color:inherit}
 .desk{padding:26px 14px 40px}
 .shell{display:grid;grid-template-columns:minmax(0,1120px) 112px;justify-content:center;align-items:start}
 .book{position:relative;perspective:2600px;
-  box-shadow:3px 0 0 #cdcabf,6px 0 0 #a9a69b,9px 0 0 #cdcabf,0 26px 60px rgba(0,0,0,.6)}
+  box-shadow:3px 3px 0 #cfccc1,6px 6px 0 #aaa79c,9px 9px 0 #cfccc1,12px 12px 0 #a09d92,0 34px 60px rgba(0,0,0,.7)}
 .spread{display:grid;grid-template-columns:1fr 1fr;perspective:2400px}
 .spread[hidden]{display:none}
 .gutter{position:absolute;left:50%;top:0;bottom:0;width:50px;margin-left:-25px;z-index:6;pointer-events:none;
   background:
+    radial-gradient(circle 9px at 9px 17px,rgba(0,0,0,.4) 0 50%,transparent 100%) 0 0/50px 34px repeat-y,
+    radial-gradient(circle 9px at 41px 17px,rgba(0,0,0,.4) 0 50%,transparent 100%) 0 0/50px 34px repeat-y,
     radial-gradient(circle 5px at 9px 17px,#171614 0 97%,transparent 100%) 0 0/50px 34px repeat-y,
     radial-gradient(circle 5px at 41px 17px,#171614 0 97%,transparent 100%) 0 0/50px 34px repeat-y,
-    linear-gradient(to bottom,transparent 11px,#0c0c0c 11px 13px,#9a9a9a 13px 16px,#0c0c0c 16px 19px,transparent 19px) 0 0/50px 34px repeat-y}
+    linear-gradient(to bottom,transparent 11px,#0c0c0c 11px 13px,#a8a8a8 13px 16px,#0c0c0c 16px 19px,transparent 19px) 0 0/50px 34px repeat-y}
 
 /* ===== página ===== */
-.page{position:relative;min-height:748px;padding:68px 34px 52px 80px;overflow:hidden;
+.page{position:relative;min-height:748px;padding:68px 34px 52px 80px;overflow:hidden;text-shadow:0 0 .5px currentColor;
   background:
     linear-gradient(90deg,transparent 56px,rgba(192,34,27,.78) 56px 58px,transparent 58px),
     repeating-linear-gradient(to bottom,transparent 0 33px,var(--rule) 33px 34px),
     var(--paper)}
-.page.left{transform:rotate(-.22deg);box-shadow:inset -26px 0 26px -18px rgba(0,0,0,.45)}
-.page.right{transform:rotate(.18deg);box-shadow:inset 26px 0 26px -18px rgba(0,0,0,.45)}
+.page input,.page textarea,.page button{text-shadow:inherit}
+.page.left{transform:rotate(-.22deg);box-shadow:inset -26px 0 26px -18px rgba(0,0,0,.45),inset 0 0 60px rgba(70,55,30,.16)}
+.page.right{transform:rotate(.18deg);box-shadow:inset 26px 0 26px -18px rgba(0,0,0,.45),inset 0 0 60px rgba(70,55,30,.16)}
 .page>*{position:relative;z-index:1}
 /* papel amassado: ruído iluminado + vincos */
 .page::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:multiply;opacity:.6;
@@ -64,30 +75,36 @@ button,input,textarea{font:inherit;color:inherit}
 .pn{position:absolute!important;bottom:6px;left:84px;font:400 1.7rem/1 var(--scrawl);z-index:1}
 .page.right .pn{left:auto;right:60px}
 
+/* ===== sujeira e rabiscos de caneta (sem desenhos, só marcas) ===== */
+.scr{position:absolute!important;fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.78;pointer-events:none;z-index:1;
+  aspect-ratio:140/44;height:auto;filter:url(#wob2)}
+.scr.r{stroke:var(--red)}
+.smudge{position:absolute!important;pointer-events:none;border-radius:50%;z-index:1;filter:blur(5px);
+  background:radial-gradient(ellipse,rgba(55,55,65,.34),transparent 70%)}
+.ring{position:absolute!important;pointer-events:none;width:150px;height:150px;border-radius:50%;z-index:2;mix-blend-mode:multiply;
+  border:7px solid rgba(104,70,36,.17);box-shadow:inset 0 0 7px rgba(104,70,36,.14),0 0 5px rgba(104,70,36,.1)}
+
 /* ===== escrita ===== */
-.hd{position:relative;margin:0;height:68px;line-height:68px;font:400 3.1rem/68px var(--scrawl);letter-spacing:.01em}
+.hd{position:relative;margin:0;height:68px;line-height:68px;font:400 3.1rem/68px var(--scrawl);letter-spacing:.01em;filter:url(#rough)}
 .hd::after{content:"";position:absolute;left:0;bottom:6px;width:min(100%,250px);height:14px;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 14' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 1 90 8 130 4 S210 3 248 5 M6 11 C60 8 110 12 160 9 S220 10 244 8' fill='none' stroke='%23c0221b' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat}
 .fld{display:flex;align-items:flex-end;gap:10px;height:var(--u);margin-bottom:var(--u)}
+.fld.tight{margin-bottom:0}
 .fld label{font:400 1.9rem/26px var(--scrawl);color:var(--red);white-space:nowrap}
 .in{flex:1;min-width:0;height:var(--u);padding:0 4px;border:0;background:transparent;font:400 1.3rem/var(--u) var(--hw);color:var(--ink)}
+.in.big{font-size:1.65rem;font-weight:700}
 .in::placeholder,textarea::placeholder{color:rgba(21,20,26,.3);font-weight:300}
 .in:focus,textarea:focus{outline:none;box-shadow:inset 0 -2px 0 var(--red)}
 textarea{display:block;width:100%;resize:none;overflow:hidden;border:0;background:transparent;padding:0 4px;font:400 1.25rem/var(--u) var(--hw);color:var(--ink)}
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .red{color:var(--red)}
-.cola{font:400 1.75rem/var(--u) var(--scrawl);color:var(--red)}
+.cola{font:400 1.75rem/var(--u) var(--scrawl);color:var(--red);filter:url(#rough)}
 
 /* contorno a caneta (borda com tremida) */
 .pen{position:relative}
 .pen::before{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:3px;filter:url(#wob);pointer-events:none}
 .pen.rd::before{border-color:var(--red)}
-
-/* ===== rabiscos ===== */
-.dd{position:absolute!important;fill:none;stroke:var(--ink);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;opacity:.9;z-index:1}
-.dd.r{stroke:var(--red)}
-.dd{aspect-ratio:1/1;height:auto}
 
 /* ===== foto ===== */
 .photo{position:relative;display:block;width:158px;height:210px;margin-top:var(--u);padding:7px;background:#fbfbf8;border:0;cursor:pointer;
@@ -101,7 +118,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .rm.on{display:inline-block}
 
 /* ===== atributos ===== */
-.postit{position:absolute!important;right:22px;top:16px;width:124px;padding:8px 8px 10px;background:#f1dd6b;box-shadow:0 4px 9px rgba(0,0,0,.3);transform:rotate(3.5deg);text-align:center;line-height:1.1;z-index:4}
+.postit{position:absolute!important;right:22px;top:16px;width:124px;padding:12px 8px 10px;background:#f1dd6b;box-shadow:0 4px 9px rgba(0,0,0,.3);transform:rotate(3.5deg);text-align:center;line-height:1.1;z-index:4}
+.postit::before{content:"";position:absolute;top:-9px;left:50%;width:56px;height:18px;margin-left:-28px;background:rgba(216,206,174,.85);transform:rotate(-3deg);box-shadow:0 1px 2px rgba(0,0,0,.18)}
 .postit small{display:block;font:400 1.35rem/1 var(--scrawl)}
 .postit .n{font:400 3.4rem/1 var(--scrawl);color:var(--red)}
 .postit .n.neg{text-decoration:underline wavy var(--ink)}
@@ -111,16 +129,20 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .ar1{display:flex;align-items:center;justify-content:space-between;height:var(--u)}
 .an{font:700 1.3rem/var(--u) var(--hw)}
 .ctr{display:flex;align-items:center;gap:8px}
-.val{min-width:40px;text-align:center;font:400 2.5rem/var(--u) var(--scrawl)}
+.val{min-width:44px;text-align:center;font:400 2.5rem/var(--u) var(--scrawl)}
+.val.neg{color:var(--red)}
 .pbtn{position:relative;width:30px;height:28px;padding:0;border:0;background:transparent;cursor:pointer;font:700 1.25rem/26px var(--hw);text-align:center}
 .pbtn::before{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:3px;filter:url(#wob)}
 .pbtn:hover:not(:disabled){color:var(--red)}
 .pbtn:active:not(:disabled){transform:translateY(1px)}
 .pbtn:disabled{opacity:.28;cursor:not-allowed}
-.boxes{display:flex;gap:7px;height:var(--u);align-items:center}
-.boxes i{position:relative;width:17px;height:17px}
-.boxes i::before{content:"";position:absolute;inset:0;border:2px solid var(--ink);filter:url(#wob)}
+.boxes{display:flex;gap:6px;height:var(--u);align-items:center}
+.boxes i{display:block;width:17px;height:17px;border:2px solid var(--ink);border-radius:2px 4px 2px 3px;background:rgba(255,255,255,.18)}
+.boxes i:nth-child(3n){transform:rotate(1.6deg)} .boxes i:nth-child(3n+1){transform:rotate(-1.2deg)}
 .boxes i.on{background:repeating-linear-gradient(-58deg,var(--ink) 0 2px,transparent 2px 5px)}
+.boxes i.neg{border-color:var(--red)}
+.boxes i.neg.on{background:repeating-linear-gradient(-58deg,var(--red) 0 2px,transparent 2px 5px)}
+.boxes b{width:2px;height:24px;margin:0 3px;background:var(--ink);border-radius:2px;transform:rotate(2deg)}
 
 /* ===== PS / PA ===== */
 .vit{margin-bottom:var(--u)}
@@ -130,11 +152,12 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .cur{width:104px;height:68px;text-align:center;border:0;background:transparent;padding:0;font:400 4rem/68px var(--scrawl)}
 .cur:focus{outline:none;box-shadow:inset 0 -2px 0 var(--red)}
 .mx{font:400 2.7rem/68px var(--scrawl);color:var(--red)}
-.nt{margin-left:auto;font:400 1.5rem/68px var(--scrawl);color:var(--red);transform:rotate(-2deg)}
 .bar{position:relative;height:var(--u)}
 .bar::before{content:"";position:absolute;left:0;right:0;top:6px;bottom:6px;border:2px solid var(--ink);filter:url(#wob)}
 .bar i{position:absolute;left:4px;top:10px;bottom:10px;width:calc((100% - 8px)*var(--p,0));
   background:repeating-linear-gradient(-58deg,currentColor 0 2px,transparent 2px 6px);transition:width .3s}
+.bar.ticks::after{content:"";position:absolute;left:3px;right:3px;bottom:0;height:5px;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 1.5px,transparent 1.5px calc(100%/var(--mx,20)*5))}
 .ps .bar i{color:var(--red)} .pa .bar i{color:var(--ink)}
 .vb{display:flex;align-items:center;gap:7px;height:var(--u)}
 .vb .pbtn{width:auto;min-width:36px;padding:0 8px;font-size:1.05rem}
@@ -159,26 +182,50 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 28'%3E%3Cpath d='M3 15 L11 24 L27 3' fill='none' stroke='%23c0221b' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat}
 .trow.now::after{content:"";position:absolute;inset:2px -10px 0;border:2.5px solid var(--red);border-radius:50%/60%;filter:url(#wob);pointer-events:none}
 
+/* ===== fichas (índice do caderno) ===== */
+.ficha{position:relative;display:flex;align-items:center;gap:12px;height:calc(var(--u)*2)}
+.fopen{display:block;flex:1;min-width:0;padding:0;border:0;background:none;text-align:left;cursor:pointer}
+.fn{display:block;font:400 2.2rem/var(--u) var(--scrawl);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fs{display:block;font:400 1.05rem/var(--u) var(--hw);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fs b{font:400 1.55rem/1 var(--scrawl);color:var(--red);margin-right:6px}
+.fs i{font-style:normal;opacity:.45}
+.fopen:hover .fn{color:var(--red)}
+.fp{flex:0 0 auto;min-width:46px;text-align:center;font:400 2rem/1 var(--scrawl);color:var(--red);padding:2px 8px;position:relative}
+.fp::before{content:"";position:absolute;inset:0;border:2px solid var(--red);border-radius:50%/60%;filter:url(#wob)}
+.fact{display:flex;gap:12px;flex:0 0 auto}
+.lnk{padding:0;border:0;background:none;cursor:pointer;font:400 1.5rem/1 var(--scrawl);color:var(--red);text-decoration:underline}
+.ficha.on::before{content:"";position:absolute;left:-64px;top:20px;width:30px;height:26px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 26'%3E%3Cpath d='M2 13H26M17 4L27 13L17 22' fill='none' stroke='%23c0221b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat}
+.ficha.on .fn{color:var(--red)}
+.row-b{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;min-height:var(--u)}
+.row-b .pbtn{width:auto;min-width:0;padding:0 12px;font-size:1.05rem}
+.acc-status{font:400 1.05rem/var(--u) var(--hw);overflow-wrap:anywhere}
+.msg{margin:0;min-height:var(--u);font:400 1.5rem/var(--u) var(--scrawl);color:var(--red)}
+.msg.err{text-decoration:underline wavy var(--ink);text-decoration-thickness:1px;text-underline-offset:5px}
+
 /* ===== marcadores laterais ===== */
-.tabs{display:flex;flex-direction:column;gap:12px;padding-top:54px;margin-left:6px}
+.side{display:flex;flex-direction:column}
+.tabs{display:flex;flex-direction:column;gap:12px;padding-top:54px;margin-left:10px}
 .tab{position:relative;width:98px;min-height:58px;padding:5px 8px 5px 14px;text-align:left;cursor:pointer;border:0;
   background:#d6d3c9 repeating-linear-gradient(0deg,rgba(0,0,0,.025) 0 1px,transparent 1px 4px);border-radius:0 9px 9px 0;
-  box-shadow:2px 3px 5px rgba(0,0,0,.4);transition:transform .2s,background .2s}
+  box-shadow:2px 3px 5px rgba(0,0,0,.45);transition:transform .2s,background .2s}
+.tab::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(100deg,rgba(255,255,255,.35),transparent 30%,rgba(0,0,0,.08))}
 .tab:nth-child(odd){transform:rotate(.7deg)} .tab:nth-child(even){transform:rotate(-.6deg)}
 .tab .tl{display:block;font:700 1.02rem/1.15 var(--hw)}
 .tab .tp{display:block;font:400 1.35rem/1 var(--scrawl);color:var(--red)}
 .tab:hover{background-color:#e4e1d8}
-.tab[aria-selected=true]{width:110px;background-color:#f1efe9;transform:rotate(0);box-shadow:3px 3px 6px rgba(0,0,0,.45),inset 5px 0 0 var(--red)}
-
-/* ===== fitas na mesa ===== */
-.tapes{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center;margin:34px auto 0;max-width:1120px}
-.tape{border:0;cursor:pointer;background:#d8ceae;color:var(--ink);font:400 1.75rem/1 var(--scrawl);padding:7px 26px 6px;
-  clip-path:polygon(0 0,100% 0,98% 25%,100% 50%,98% 75%,100% 100%,0 100%,2% 75%,0 50%,2% 25%);transition:transform .15s}
-.tape:nth-child(odd){transform:rotate(-1.4deg)} .tape:nth-child(even){transform:rotate(1deg)}
-.tape:hover{transform:rotate(0) translateY(-2px)}
-.tape.red{color:var(--red)}
-.saved{font:400 1.6rem/1 var(--scrawl);color:#cfcabd;opacity:0;transition:opacity .4s}
+.tab[aria-selected=true]{width:110px;background-color:#f1efe9;transform:rotate(0);box-shadow:3px 3px 6px rgba(0,0,0,.5),inset 5px 0 0 var(--red)}
+.saved{margin:14px 0 0 14px;height:1.8rem;font:400 1.6rem/1 var(--scrawl);color:#e6dccb;opacity:0;transition:opacity .4s}
 .saved.on{opacity:1}
+
+/* ===== objetos na mesa ===== */
+.desk-items{position:relative;max-width:1120px;height:170px;margin:30px auto 0;pointer-events:none}
+.it{position:absolute;filter:drop-shadow(3px 6px 5px rgba(0,0,0,.6))}
+.it.pencil{left:4%;top:26px;width:310px;transform:rotate(-4deg)}
+.it.pen1{left:36%;top:78px;width:270px;transform:rotate(2.5deg)}
+.it.pen2{right:5%;top:12px;width:262px;transform:rotate(-9deg)}
+.it.eraser{left:66%;top:96px;width:86px;transform:rotate(14deg)}
 
 /* ===== virar a página ===== */
 @keyframes turnF{from{transform:rotateY(-96deg);filter:brightness(.6)}to{transform:rotateY(0);filter:none}}
@@ -189,82 +236,49 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 /* ===== telas menores ===== */
 @media(max-width:1120px){
   .shell{grid-template-columns:minmax(0,1fr)}
-  .tabs{order:-1;flex-direction:row;overflow-x:auto;padding:0;margin:0 0 0 4px;gap:6px}
-  .tab{flex:0 0 auto;width:auto;min-width:92px;min-height:0;border-radius:9px 9px 0 0;transform:none!important;box-shadow:0 -2px 5px rgba(0,0,0,.3)}
-  .tab[aria-selected=true]{width:auto;box-shadow:0 -2px 5px rgba(0,0,0,.3),inset 0 4px 0 var(--red)}
-  .book{box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  .side{order:-1}
+  .tabs{flex-direction:row;overflow-x:auto;padding:0;margin:0 0 0 4px;gap:6px}
+  .tab{flex:0 0 auto;width:auto;min-width:92px;min-height:0;border-radius:9px 9px 0 0;transform:none!important;box-shadow:0 -2px 5px rgba(0,0,0,.35)}
+  .tab[aria-selected=true]{width:auto;box-shadow:0 -2px 5px rgba(0,0,0,.35),inset 0 4px 0 var(--red)}
+  .saved{margin:4px 8px 6px;height:1.4rem;text-align:right}
+  .book{box-shadow:3px 3px 0 #cfccc1,6px 6px 0 #aaa79c,0 24px 40px rgba(0,0,0,.6)}
 }
 @media(max-width:820px){
   .spread{grid-template-columns:1fr}
   .gutter{display:none}
+  .desk-items{display:none}
   .page{min-height:620px;padding:68px 18px 52px 70px;transform:none!important;
     background:linear-gradient(90deg,transparent 46px,rgba(192,34,27,.78) 46px 48px,transparent 48px),repeating-linear-gradient(to bottom,transparent 0 33px,var(--rule) 33px 34px),var(--paper)}
-  .page.left{box-shadow:none} .page.right{box-shadow:none}
+  .page.left{box-shadow:inset 0 0 60px rgba(70,55,30,.16)} .page.right{box-shadow:inset 0 0 60px rgba(70,55,30,.16)}
   .trow.got::before{left:-52px}
+  .ficha.on::before{left:-54px}
   .postit{right:12px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media print{
   body{background:#fff}
-  .tabs,.tapes,.gutter,.pbtn,.rm,.ear{display:none!important}
+  .side,.gutter,.pbtn,.rm,.ear,.lnk,.desk-items{display:none!important}
   .shell{display:block}
   .book{box-shadow:none}
   .spread[hidden]{display:grid!important}
+  .spread[data-i="5"]{display:none!important}
   .spread{break-after:page;page-break-after:always}
 }
-
-/* ===== conta e sincronização ===== */
-.account-panel{max-width:1120px;margin:0 auto 22px;padding:16px 20px;background:#e7e2d5;color:#15141a;border:2px solid #15141a;box-shadow:5px 6px 0 rgba(0,0,0,.3);font:400 1rem/1.4 var(--hw)}
-.account-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.account-title{font:400 2rem/1 var(--scrawl);color:var(--red)}
-.account-status{font-size:.95rem;overflow-wrap:anywhere}
-.account-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
-.account-controls input{min-width:160px;max-width:100%;padding:7px 9px;background:#f8f6ef;border:1px solid #777;font:400 1rem/1.2 var(--hw)}
-.account-btn{padding:7px 12px;border:1.5px solid #15141a;background:#f8f6ef;cursor:pointer;font:400 1rem/1.2 var(--hw)}
-.account-btn:hover{background:#d8ceae}
-.account-btn.google{background:#15141a;color:#f8f6ef}
-.account-btn:disabled{opacity:.45;cursor:not-allowed}
-.account-message{margin:9px 0 0;min-height:1.3em;font-size:.92rem}
-.account-note{margin:6px 0 0;font-size:.82rem;opacity:.8}
-@media(max-width:600px){.account-panel{padding:13px}.account-controls input{flex:1 1 100%;width:100%}.account-btn{flex:1 1 auto}}
-
 </style>
 </head>
 <body>
-<section class="account-panel" aria-label="Conta e salvamento na nuvem">
-  <div class="account-top">
-    <strong class="account-title">Caderno na nuvem</strong>
-    <span class="account-status" id="accountStatus" role="status" aria-live="polite">Carregando autenticação…</span>
-  </div>
-  <div class="account-controls" id="accountControls">
-    <input id="accountEmail" type="email" autocomplete="email" placeholder="Seu e-mail" aria-label="E-mail">
-    <input id="accountPassword" type="password" autocomplete="current-password" placeholder="Senha (mín. 6 caracteres)" aria-label="Senha">
-    <button class="account-btn" id="loginEmail" type="button">Entrar</button>
-    <button class="account-btn" id="registerEmail" type="button">Criar conta</button>
-    <button class="account-btn google" id="loginGoogle" type="button">Entrar com Google</button>
-    <button class="account-btn" id="logoutAccount" type="button" hidden>Sair</button>
-  </div>
-  <p class="account-message" id="accountMessage" aria-live="polite">A ficha continua sendo salva neste navegador. Entre para sincronizá-la com sua conta.</p>
-  <p class="account-note">Use sua conta para acessar a ficha em outros dispositivos. A sincronização na nuvem só funciona depois de configurar o Firebase no código e no console.</p>
-</section>
 
-
-<!-- filtro de tremida + rabiscos reutilizáveis -->
+<!-- filtros de tremida e rabiscos de caneta reutilizáveis -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <filter id="wob" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter>
-    <symbol id="d-skull" viewBox="0 0 60 60"><path d="M12 30C10 14 22 6 30 6S50 14 48 30C48 36 44 38 42 40L42 50L18 50L18 40C16 38 12 36 12 30ZM18 28a4 4 0 1 0 8 0a4 4 0 1 0-8 0M34 28a4 4 0 1 0 8 0a4 4 0 1 0-8 0M30 35l-3 6h6zM24 50v-6M30 50v-6M36 50v-6"/></symbol>
-    <symbol id="d-eye" viewBox="0 0 60 60"><path d="M4 30C16 12 44 12 56 30C44 48 16 48 4 30ZM22 30a8 8 0 1 0 16 0a8 8 0 1 0-16 0M27 30a3 3 0 1 0 6 0a3 3 0 1 0-6 0M30 4V10M15 9L18 14M45 9L42 14"/></symbol>
-    <symbol id="d-spiral" viewBox="0 0 60 60"><path d="M30 30a3 3 0 0 1 6 0a6 6 0 0 1-12 0a9 9 0 0 1 18 0a12 12 0 0 1-24 0a15 15 0 0 1 30 0a18 18 0 0 1-36 0"/></symbol>
-    <symbol id="d-cube" viewBox="0 0 60 60"><path d="M9 19L30 8L51 19L51 42L30 53L9 42ZM9 19L30 30L51 19M30 30L30 53"/></symbol>
-    <symbol id="d-bolt" viewBox="0 0 60 60"><path d="M36 3L14 33H29L22 57L47 24H32Z"/></symbol>
-    <symbol id="d-arrow" viewBox="0 0 60 60"><path d="M5 44C14 12 42 8 54 26M54 26L41 23M54 26L51 39"/></symbol>
-    <symbol id="d-star" viewBox="0 0 60 60"><path d="M30 5L37 24L56 24L41 36L47 55L30 43L13 55L19 36L4 24L23 24Z"/></symbol>
-    <symbol id="d-x" viewBox="0 0 60 60"><path d="M9 11L51 51M49 9L11 53M12 8L54 48"/></symbol>
-    <symbol id="d-tally" viewBox="0 0 60 60"><path d="M9 12V48M21 11V49M33 12V48M45 11V49M3 40L55 18"/></symbol>
-    <symbol id="d-crown" viewBox="0 0 60 60"><path d="M8 46V20L20 32L30 12L40 32L52 20V46ZM8 51H52"/></symbol>
-    <symbol id="d-stick" viewBox="0 0 60 60"><path d="M23 12a7 7 0 1 0 14 0a7 7 0 1 0-14 0M30 19V38M30 24L15 11M30 24L46 33M30 38L18 56M30 38L43 55"/></symbol>
-    <symbol id="d-wave" viewBox="0 0 120 20"><path d="M3 12C14 2 22 18 34 10S52 2 64 11S86 18 98 8S112 6 117 10"/></symbol>
+    <filter id="wob2" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
+    <filter id="rough" x="-2%" y="-10%" width="104%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2"/></filter>
+    <symbol id="s-loops" viewBox="0 0 140 44"><path d="M4 32C14 6 30 6 26 24C22 40 8 34 18 18C28 4 52 8 46 26C42 38 30 34 38 20C46 8 66 12 64 26C62 38 52 34 58 22C64 12 84 14 82 26C80 36 72 34 76 24C80 16 98 18 96 28C95 34 88 33 92 27L136 25"/></symbol>
+    <symbol id="s-hatch" viewBox="0 0 140 44"><path d="M8 40L22 5M20 41L35 6M33 40L46 4M45 41L60 6M58 40L71 5M70 41L85 6M83 40L96 5M95 41L110 6"/></symbol>
+    <symbol id="s-circle" viewBox="0 0 140 44"><path d="M70 6C30 3 6 17 12 31C20 44 100 44 126 28C142 16 102 2 56 9C24 14 14 30 40 37C72 44 118 34 112 20"/></symbol>
+    <symbol id="s-zig" viewBox="0 0 140 44"><path d="M4 26L16 10L28 37L40 8L52 38L64 10L76 36L88 10L100 37L112 12L124 34L136 20"/></symbol>
+    <symbol id="s-strike" viewBox="0 0 140 44"><path d="M6 12L134 7M4 19L136 15M7 26L133 22M5 33L135 29M8 40L132 36"/></symbol>
   </defs>
 </svg>
 
@@ -279,21 +293,21 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <section class="spread" data-i="0" aria-label="Quem é, páginas 1 e 2">
         <div class="page left">
           <h2 class="hd">Ficha de personagem</h2>
-          <div class="fld"><label for="nome">Nome:</label><input class="in" id="nome" autocomplete="off" placeholder="como chamam ele"></div>
+          <div class="fld"><label for="nome">Nome:</label><input class="in big" id="nome" autocomplete="off" placeholder="como chamam ele"></div>
           <div class="fld"><label for="estereotipo">Estereótipo (classe):</label><input class="in" id="estereotipo" autocomplete="off"></div>
           <button class="photo" id="photo" type="button" aria-label="Escolher foto ou desenho do personagem"><div class="ph" id="ph">foto<br>3x4</div></button>
           <button class="rm" id="rmFoto" type="button">tirar a foto</button>
           <input type="file" id="fotoIn" accept="image/*" hidden>
-          <svg class="dd" style="right:44px;top:12px;width:60px;transform:rotate(9deg)"><use href="#d-skull"/></svg>
-          <svg class="dd r" style="right:46px;bottom:150px;width:104px;transform:rotate(-6deg)"><use href="#d-stick"/></svg>
-          <svg class="dd" style="right:150px;bottom:86px;width:56px;transform:rotate(16deg)"><use href="#d-bolt"/></svg>
+          <svg class="scr" style="right:36px;top:18px;width:100px;transform:rotate(7deg)"><use href="#s-loops"/></svg>
+          <svg class="scr r" style="right:44px;bottom:84px;width:96px;transform:rotate(-8deg)"><use href="#s-hatch"/></svg>
+          <i class="smudge" style="left:96px;bottom:60px;width:130px;height:44px;transform:rotate(-8deg)"></i>
           <span class="pn">1</span>
         </div>
         <div class="page right">
           <h2 class="hd">Aparência</h2>
           <textarea id="aparencia" data-rows="16" placeholder="cabelo, roupa, cicatriz, jeito de andar…"></textarea>
-          <svg class="dd" style="right:60px;bottom:54px;width:78px;transform:rotate(-12deg)"><use href="#d-eye"/></svg>
-          <svg class="dd r" style="right:150px;bottom:62px;width:60px;transform:rotate(8deg)"><use href="#d-arrow"/></svg>
+          <svg class="scr" style="right:70px;bottom:58px;width:120px;transform:rotate(-4deg)"><use href="#s-loops"/></svg>
+          <i class="ring" style="right:-46px;top:300px"></i>
           <i class="ear"></i><span class="pn">2</span>
         </div>
       </section>
@@ -305,29 +319,32 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
           <div class="postit" aria-live="polite"><small>PP sobrando</small><div class="n" id="ppRest">4</div><label>de <input type="number" id="ppTotal" min="0" aria-label="PP totais"></label></div>
           <div id="attrs"></div>
           <div class="cola" style="margin-top:var(--u)">PP = Pontos de Prestígio</div>
+          <div class="cola">atributo negativo (até −2) devolve PP</div>
           <div class="cola">PS = 20 + (Porrada × 3)</div>
           <div class="cola">PA = 10 + (Aura × 3)</div>
-          <svg class="dd" style="right:40px;bottom:70px;width:64px;transform:rotate(14deg)"><use href="#d-cube"/></svg>
+          <svg class="scr r" style="right:40px;bottom:50px;width:112px;transform:rotate(-5deg)"><use href="#s-zig"/></svg>
           <span class="pn">3</span>
         </div>
         <div class="page right">
           <h2 class="hd">Vida e aura</h2>
           <div class="vit ps">
             <div class="vt">PS <span>Pontos de Saúde</span></div>
-            <div class="vv"><input class="cur" id="psCur" type="number" aria-label="PS atual"><span class="mx">/ <span id="psMax">26</span></span></div>
-            <div class="bar" id="psBar"><i></i></div>
+            <div class="vv"><input class="cur" id="psCur" type="number" aria-label="PS atual"><span class="mx">/ <span id="psMax">20</span></span></div>
+            <div class="bar ticks" id="psBar"><i></i></div>
             <div class="vb" data-vital="ps"><button class="pbtn" type="button" data-s="-5">−5</button><button class="pbtn" type="button" data-s="-1">−1</button><button class="pbtn" type="button" data-s="1">+1</button><button class="pbtn" type="button" data-s="5">+5</button><button class="pbtn" type="button" data-s="full">cheio</button></div>
             <div class="vf">20 + (Porrada <b id="psA">0</b> × 3) + bônus <input type="number" id="psBonus" aria-label="Bônus de PS"></div>
           </div>
           <div class="vit pa">
             <div class="vt">PA <span>Pontos de Aura</span></div>
             <div class="vv"><input class="cur" id="paCur" type="number" aria-label="PA atual"><span class="mx">/ <span id="paMax">10</span></span></div>
-            <div class="bar" id="paBar"><i></i></div>
+            <div class="bar ticks" id="paBar"><i></i></div>
             <div class="vb" data-vital="pa"><button class="pbtn" type="button" data-s="-5">−5</button><button class="pbtn" type="button" data-s="-1">−1</button><button class="pbtn" type="button" data-s="1">+1</button><button class="pbtn" type="button" data-s="5">+5</button><button class="pbtn" type="button" data-s="full">cheio</button></div>
             <div class="vf">10 + (Aura <b id="paA">0</b> × 3) + bônus <input type="number" id="paBonus" aria-label="Bônus de PA"></div>
           </div>
-          <svg class="dd r" style="right:48px;top:96px;width:58px;transform:rotate(10deg)"><use href="#d-bolt"/></svg>
-          <svg class="dd" style="right:40px;bottom:62px;width:76px;transform:rotate(-8deg)"><use href="#d-spiral"/></svg>
+          <div class="cola">máximo subiu? o atual fica onde está</div>
+          <div class="cola">só cai se passar do máximo</div>
+          <svg class="scr" style="right:44px;top:20px;width:96px;transform:rotate(8deg)"><use href="#s-loops"/></svg>
+          <i class="smudge" style="right:60px;bottom:90px;width:120px;height:40px;transform:rotate(10deg)"></i>
           <i class="ear"></i><span class="pn">4</span>
         </div>
       </section>
@@ -344,14 +361,14 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
           <div class="cola" id="faltam" style="margin-top:0"></div>
           <div class="cola" style="margin-top:var(--u)">EXC = experiência de combate</div>
           <div class="cola">nível = prestígio</div>
-          <svg class="dd" style="right:48px;top:64px;width:82px;transform:rotate(8deg)"><use href="#d-crown"/></svg>
-          <svg class="dd r" style="right:56px;bottom:90px;width:62px;transform:rotate(-14deg)"><use href="#d-star"/></svg>
+          <svg class="scr r" style="right:50px;top:30px;width:120px;transform:rotate(6deg)"><use href="#s-circle"/></svg>
+          <i class="smudge" style="left:110px;bottom:70px;width:140px;height:44px;transform:rotate(-6deg)"></i>
           <span class="pn">5</span>
         </div>
         <div class="page right">
           <h2 class="hd">Tabela de prestígio</h2>
           <div id="tab"></div>
-          <svg class="dd" style="right:50px;bottom:60px;width:90px;transform:rotate(6deg)"><use href="#d-tally"/></svg>
+          <svg class="scr" style="right:56px;bottom:64px;width:100px;transform:rotate(-6deg)"><use href="#s-strike"/></svg>
           <i class="ear"></i><span class="pn">6</span>
         </div>
       </section>
@@ -361,14 +378,14 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <div class="page left">
           <h2 class="hd">Backstory</h2>
           <textarea id="backstory" data-rows="17" placeholder="de onde veio, o que viveu, o que aprontou…"></textarea>
-          <svg class="dd" style="right:40px;top:10px;width:58px;transform:rotate(-10deg)"><use href="#d-eye"/></svg>
+          <svg class="scr" style="right:40px;top:18px;width:96px;transform:rotate(-7deg)"><use href="#s-zig"/></svg>
           <span class="pn">7</span>
         </div>
         <div class="page right">
           <h2 class="hd">Objetivos</h2>
           <textarea id="objetivos" data-rows="17" placeholder="o que ele quer, a curto e a longo prazo…"></textarea>
-          <svg class="dd r" style="right:46px;bottom:58px;width:70px;transform:rotate(-8deg)"><use href="#d-arrow"/></svg>
-          <svg class="dd" style="right:132px;bottom:64px;width:50px;transform:rotate(12deg)"><use href="#d-x"/></svg>
+          <svg class="scr r" style="right:56px;bottom:62px;width:104px;transform:rotate(-5deg)"><use href="#s-hatch"/></svg>
+          <i class="ring" style="right:-60px;top:140px"></i>
           <i class="ear"></i><span class="pn">8</span>
         </div>
       </section>
@@ -378,32 +395,88 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
         <div class="page left">
           <h2 class="hd">Afiliações</h2>
           <textarea id="afiliacoes" data-rows="17" placeholder="turmas, grupos, famílias, contatos…"></textarea>
+          <i class="smudge" style="right:50px;bottom:70px;width:140px;height:44px;transform:rotate(7deg)"></i>
           <span class="pn">9</span>
         </div>
         <div class="page right">
-          <svg class="dd" style="left:96px;top:44px;width:150px;transform:rotate(-8deg)"><use href="#d-spiral"/></svg>
-          <svg class="dd r" style="right:60px;top:60px;width:110px;transform:rotate(12deg)"><use href="#d-skull"/></svg>
-          <svg class="dd" style="left:120px;top:300px;width:120px;transform:rotate(6deg)"><use href="#d-cube"/></svg>
-          <svg class="dd r" style="right:90px;top:330px;width:90px;transform:rotate(-14deg)"><use href="#d-bolt"/></svg>
-          <svg class="dd" style="left:96px;bottom:90px;width:130px;transform:rotate(-4deg)"><use href="#d-stick"/></svg>
-          <svg class="dd" style="right:70px;bottom:110px;width:100px;transform:rotate(10deg)"><use href="#d-tally"/></svg>
-          <svg class="dd r" style="left:260px;top:180px;width:90px;transform:rotate(-6deg)"><use href="#d-x"/></svg>
-          <svg class="dd" style="left:250px;bottom:230px;width:110px;height:20px;transform:rotate(-3deg)"><use href="#d-wave"/></svg>
+          <svg class="scr" style="left:96px;top:46px;width:230px;transform:rotate(-5deg)"><use href="#s-loops"/></svg>
+          <svg class="scr r" style="right:60px;top:96px;width:170px;transform:rotate(8deg)"><use href="#s-circle"/></svg>
+          <svg class="scr" style="left:110px;top:240px;width:150px;transform:rotate(3deg)"><use href="#s-hatch"/></svg>
+          <svg class="scr" style="right:70px;top:380px;width:190px;transform:rotate(-4deg)"><use href="#s-zig"/></svg>
+          <svg class="scr r" style="left:120px;top:470px;width:120px;transform:rotate(-6deg)"><use href="#s-strike"/></svg>
+          <svg class="scr" style="right:90px;bottom:90px;width:150px;transform:rotate(5deg)"><use href="#s-loops"/></svg>
+          <i class="smudge" style="left:150px;top:150px;width:170px;height:54px;transform:rotate(-6deg)"></i>
+          <i class="ring" style="left:60px;bottom:30px"></i>
           <i class="ear"></i><span class="pn">10</span>
+        </div>
+      </section>
+
+      <!-- páginas 11 e 12: fichas e guardar -->
+      <section class="spread" data-i="5" aria-label="Fichas e guardar, páginas 11 e 12" hidden>
+        <div class="page left">
+          <h2 class="hd">Minhas fichas</h2>
+          <div id="fichas"></div>
+          <div class="row-b" style="margin-top:var(--u)"><button class="pbtn" id="bNova" type="button">+ nova ficha</button></div>
+          <div class="cola" id="listNote"></div>
+          <svg class="scr" style="right:40px;bottom:54px;width:104px;transform:rotate(-5deg)"><use href="#s-loops"/></svg>
+          <span class="pn">11</span>
+        </div>
+        <div class="page right">
+          <h2 class="hd">Guardar</h2>
+          <div class="cola">Nuvem</div>
+          <div class="acc-status" id="accountStatus" role="status" aria-live="polite">Carregando autenticação…</div>
+          <div id="accountControls">
+            <div class="fld tight"><label for="accountEmail">e-mail:</label><input class="in" id="accountEmail" type="email" autocomplete="email"></div>
+            <div class="fld tight"><label for="accountPassword">senha:</label><input class="in" id="accountPassword" type="password" autocomplete="current-password" placeholder="mín. 6 caracteres"></div>
+            <div class="row-b"><button class="pbtn" id="loginEmail" type="button">entrar</button><button class="pbtn" id="registerEmail" type="button">criar conta</button><button class="pbtn" id="loginGoogle" type="button">entrar com Google</button></div>
+          </div>
+          <div class="row-b" id="accountOut" hidden><button class="pbtn" id="syncNow" type="button">sincronizar agora</button><button class="pbtn" id="logoutAccount" type="button">sair</button></div>
+          <p class="msg" id="accountMessage" aria-live="polite">As fichas ficam salvas neste navegador. Entre para levar para outros aparelhos.</p>
+          <div class="cola" style="margin-top:var(--u)">Arquivo</div>
+          <div class="row-b"><button class="pbtn" id="bExp" type="button">exportar esta</button><button class="pbtn" id="bExpAll" type="button">exportar todas</button><button class="pbtn" id="bImp" type="button">importar</button><button class="pbtn" id="bPrint" type="button">imprimir</button></div>
+          <p class="msg" id="fileMsg" aria-live="polite"></p>
+          <input type="file" id="impIn" accept="application/json,.json" hidden>
+          <svg class="scr r" style="right:50px;bottom:70px;width:110px;transform:rotate(6deg)"><use href="#s-hatch"/></svg>
+          <i class="ear"></i><span class="pn">12</span>
         </div>
       </section>
     </div>
 
-    <nav class="tabs" id="tabs" role="tablist" aria-label="Seções da ficha"></nav>
+    <div class="side">
+      <nav class="tabs" id="tabs" role="tablist" aria-label="Seções da ficha"></nav>
+      <div class="saved" id="saved" aria-live="polite">salvo</div>
+    </div>
   </div>
 
-  <div class="tapes">
-    <button class="tape" id="bPrint" type="button">imprimir</button>
-    <button class="tape" id="bExp" type="button">exportar</button>
-    <button class="tape" id="bImp" type="button">importar</button>
-    <button class="tape red" id="bReset" type="button">nova ficha</button>
-    <span class="saved" id="saved">salvo</span>
-    <input type="file" id="impIn" accept="application/json,.json" hidden>
+  <!-- coisas jogadas na mesa -->
+  <div class="desk-items" aria-hidden="true">
+    <svg class="it pencil" viewBox="0 0 320 34">
+      <defs><linearGradient id="gBlk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a4a52"/><stop offset=".45" stop-color="#1c1c21"/><stop offset="1" stop-color="#050506"/></linearGradient>
+      <linearGradient id="gMet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e5e5e5"/><stop offset=".5" stop-color="#8d8d8d"/><stop offset="1" stop-color="#5d5d5d"/></linearGradient></defs>
+      <path d="M0 17L46 3V31Z" fill="#d6c196"/><path d="M0 17L14 12.3V21.7Z" fill="#202024"/>
+      <rect x="46" y="3" width="212" height="28" fill="url(#gBlk)"/><rect x="46" y="14.5" width="212" height="3" fill="#c0221b"/>
+      <rect x="46" y="7" width="212" height="2.5" fill="#fff" opacity=".13"/>
+      <rect x="258" y="3" width="26" height="28" fill="url(#gMet)"/><path d="M264 3V31M270 3V31M276 3V31" stroke="#444" stroke-width="1" opacity=".5"/>
+      <rect x="284" y="3" width="32" height="28" rx="7" fill="#c0221b"/><rect x="284" y="7" width="32" height="3" fill="#fff" opacity=".2"/>
+    </svg>
+    <svg class="it pen1" viewBox="0 0 280 26">
+      <defs><linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2463d"/><stop offset=".5" stop-color="#b3201a"/><stop offset="1" stop-color="#6d0f0b"/></linearGradient></defs>
+      <path d="M0 13L22 7V19Z" fill="#9a9a9a"/><path d="M0 13L6 11.2V14.8Z" fill="#c0221b"/>
+      <rect x="22" y="3" width="200" height="20" rx="3" fill="url(#gRed)"/><rect x="22" y="6" width="200" height="2.2" fill="#fff" opacity=".18"/>
+      <rect x="222" y="2" width="54" height="22" rx="5" fill="url(#gBlk)"/><rect x="226" y="2" width="44" height="3" fill="#aaa" opacity=".55"/>
+      <rect x="226" y="-1" width="3" height="28" fill="#8d8d8d" opacity=".001"/>
+    </svg>
+    <svg class="it pen2" viewBox="0 0 280 26">
+      <path d="M0 13L22 7V19Z" fill="#9a9a9a"/><path d="M0 13L6 11.2V14.8Z" fill="#15141a"/>
+      <rect x="22" y="3" width="200" height="20" rx="3" fill="url(#gBlk)"/><rect x="22" y="6" width="200" height="2.2" fill="#fff" opacity=".14"/>
+      <rect x="22" y="12" width="200" height="2.4" fill="#c0221b" opacity=".85"/>
+      <rect x="222" y="2" width="54" height="22" rx="5" fill="url(#gBlk)"/><rect x="226" y="2" width="44" height="3" fill="#aaa" opacity=".5"/>
+    </svg>
+    <svg class="it eraser" viewBox="0 0 90 44">
+      <rect x="2" y="2" width="86" height="40" rx="5" fill="#e9e6dc"/><rect x="2" y="2" width="86" height="12" rx="5" fill="#fff" opacity=".35"/>
+      <rect x="26" y="2" width="38" height="40" fill="#15141a"/><rect x="26" y="19" width="38" height="5" fill="#c0221b"/>
+      <rect x="2" y="30" width="86" height="12" rx="5" fill="#000" opacity=".1"/>
+    </svg>
   </div>
 </div>
 
@@ -420,13 +493,15 @@ import {
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 import {
   getFirestore,
+  collection,
   doc,
-  getDoc,
+  getDocs,
   setDoc,
+  deleteDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
-// 1. Substitua os valores abaixo pelos dados do seu app em Firebase Console > Configurações do projeto > Seus apps.
+/* ============ Firebase ============ */
 const firebaseConfig = {
   apiKey: "AIzaSyBLqmf8347Nkvp1UwFHzcVbkKAJ3hvNf_Y",
   authDomain: "putaria-explicita-rpg.firebaseapp.com",
@@ -439,142 +514,81 @@ const auth = firebaseApp ? getAuth(firebaseApp) : null;
 const db = firebaseApp ? getFirestore(firebaseApp) : null;
 const googleProvider = new GoogleAuthProvider();
 const OWNER_KEY = 'ficha-rpg-caderno-cloud-owner-v1';
-let cloudUser = null;
-let cloudLoaded = false;
-let cloudTimer = null;
-let cloudSaveChain = Promise.resolve();
 
-const accountStatus = document.querySelector('#accountStatus');
-const accountMessage = document.querySelector('#accountMessage');
-const accountControls = document.querySelector('#accountControls');
-const emailInput = document.querySelector('#accountEmail');
-const passwordInput = document.querySelector('#accountPassword');
-const loginEmailButton = document.querySelector('#loginEmail');
-const registerEmailButton = document.querySelector('#registerEmail');
-const loginGoogleButton = document.querySelector('#loginGoogle');
-const logoutButton = document.querySelector('#logoutAccount');
-
-function setAccountMessage(message, error = false) {
-  accountMessage.textContent = message;
-  accountMessage.style.color = error ? '#a21b16' : '';
-}
-function firebaseErrorMessage(error) {
-  const code = error?.code || '';
-  const messages = {
-    'auth/invalid-email': 'Esse e-mail não parece válido.',
-    'auth/missing-password': 'Digite sua senha.',
-    'auth/weak-password': 'A senha precisa ter pelo menos 6 caracteres.',
-    'auth/email-already-in-use': 'Já existe uma conta com esse e-mail. Tente entrar.',
-    'auth/invalid-credential': 'E-mail ou senha incorretos.',
-    'auth/user-not-found': 'Conta não encontrada. Você pode criar uma conta.',
-    'auth/wrong-password': 'Senha incorreta.',
-    'auth/popup-closed-by-user': 'A janela do Google foi fechada antes de concluir o login.',
-    'auth/popup-blocked': 'O navegador bloqueou a janela de login. Permita pop-ups para este site.',
-    'auth/unauthorized-domain': 'Este domínio não está autorizado no Firebase Authentication.',
-    'permission-denied': 'O Firebase recusou o acesso. Confira as regras do Firestore.',
-    'firestore/permission-denied': 'O Firebase recusou o acesso. Confira as regras do Firestore.',
-    'resource-exhausted': 'O limite de uso do Firebase pode ter sido atingido.'
-  };
-  return messages[code] || (error?.message && !code ? error.message : '') || 'Ocorreu um erro inesperado.';
-}
-function setSignedInUI(user) {
-  const signedIn = !!user;
-  emailInput.hidden = signedIn;
-  passwordInput.hidden = signedIn;
-  loginEmailButton.hidden = signedIn;
-  registerEmailButton.hidden = signedIn;
-  loginGoogleButton.hidden = signedIn;
-  logoutButton.hidden = !signedIn;
-  accountStatus.textContent = signedIn ? `Conectado: ${user.email || user.displayName || 'conta Google'}` : (firebasePronto ? 'Não conectado' : 'Firebase ainda não configurado');
-}
-function sheetRef(uid) {
-  return doc(db, 'users', uid, 'sheets', 'main');
-}
-function scheduleCloudSave() {
-  if (!cloudUser || !cloudLoaded || !db) return;
-  clearTimeout(cloudTimer);
-  cloudTimer = setTimeout(() => {
-    const userAtSchedule = cloudUser;
-    const snapshot = JSON.parse(JSON.stringify(st));
-    cloudSaveChain = cloudSaveChain.then(async () => {
-      if (!cloudUser || cloudUser.uid !== userAtSchedule.uid || !cloudLoaded) return;
-      try {
-        const serialized = JSON.stringify(snapshot);
-        // Firestore limita cada documento a 1 MiB. A imagem é comprimida antes de ser salva.
-        if (new Blob([serialized]).size > 900000) {
-          setAccountMessage('A ficha está grande demais para salvar na nuvem. Remova ou reduza a foto do personagem.', true);
-          return;
-        }
-        await setDoc(sheetRef(userAtSchedule.uid), { sheet: snapshot, updatedAt: serverTimestamp() });
-        if (cloudUser?.uid === userAtSchedule.uid) setAccountMessage('Ficha sincronizada com a nuvem.');
-      } catch (error) {
-        console.error('Erro ao salvar a ficha no Firebase:', error);
-        setAccountMessage('Não foi possível sincronizar: ' + firebaseErrorMessage(error), true);
-      }
-    });
-  }, 700);
-}
-
-async function runAuthAction(action) {
-  if (!firebasePronto || !auth) {
-    setAccountMessage('Antes, configure firebaseConfig no início do código e habilite Authentication e Firestore no Firebase Console.', true);
-    return;
-  }
-  try {
-    setAccountMessage('Conectando…');
-    await action();
-  } catch (error) {
-    console.error('Erro de autenticação Firebase:', error);
-    setAccountMessage(firebaseErrorMessage(error), true);
-  }
-}
-loginEmailButton.addEventListener('click', () => runAuthAction(() => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-  if (!email || !password) throw new Error('Preencha o e-mail e a senha.');
-  return signInWithEmailAndPassword(auth, email, password);
-}));
-registerEmailButton.addEventListener('click', () => runAuthAction(() => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-  if (!email || !password) throw new Error('Preencha o e-mail e a senha.');
-  if (password.length < 6) throw new Error('A senha precisa ter pelo menos 6 caracteres.');
-  return createUserWithEmailAndPassword(auth, email, password);
-}));
-loginGoogleButton.addEventListener('click', () => runAuthAction(() => signInWithPopup(auth, googleProvider)));
-logoutButton.addEventListener('click', () => runAuthAction(async () => {
-  await signOut(auth);
-  setAccountMessage('Você saiu da conta. A ficha atual continua salva neste navegador.');
-}));
-
-const KEY='ficha-rpg-caderno-v2';'ficha-rpg-caderno-v2';
-const ATTRS=[['porrada','Porrada'],['molejo','Molejo'],['cabeca','Cabeça'],['resenha','Resenha'],['aura','Aura']];
-const THR=[0,10,25,45,70,100,135,175,220,270,325]; // P1=10, P2=25, P3=45 ... P10=325 (cada degrau cresce 5 a mais)
-const PAGES=[['Quem é','1-2'],['Atributos','3-4'],['Prestígio','5-6'],['História','7-8'],['Afiliações','9-10']];
-const TXT=['nome','estereotipo','aparencia','backstory','objetivos','afiliacoes'];
-const DEF=()=>({nome:'',estereotipo:'',aparencia:'',backstory:'',objetivos:'',afiliacoes:'',
-  attrs:{porrada:0,molejo:0,cabeca:0,resenha:0,aura:0},ppTotal:4,exc:0,psBonus:0,paBonus:0,psDano:0,paDano:0,foto:''});
+/* ============ utilidades ============ */
 const $=s=>document.querySelector(s);
 const int=v=>{const n=parseInt(v,10);return isNaN(n)?0:n;};
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const slug=s=>(s||'').trim().toLowerCase().replace(/[^a-z0-9à-ú]+/gi,'-').replace(/^-|-$/g,'')||'personagem';
+const newId=()=>'f'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
+/* ============ dados da ficha ============ */
+const ATTRS=[['porrada','Porrada'],['molejo','Molejo'],['cabeca','Cabeça'],['resenha','Resenha'],['aura','Aura']];
+const ATTR_MIN=-2; // atributo pode ficar negativo até −2; cada ponto negativo devolve 1 PP
+const THR=[0,10,25,45,70,100,135,175,220,270,325]; // P1=10, P2=25, P3=45 ... P10=325 (cada degrau cresce 5 a mais)
+const PAGES=[['Quem é','1-2'],['Atributos','3-4'],['Prestígio','5-6'],['História','7-8'],['Afiliações','9-10'],['Fichas','11-12']];
+const TXT=['nome','estereotipo','aparencia','backstory','objetivos','afiliacoes'];
+const DEF=()=>({nome:'',estereotipo:'',aparencia:'',backstory:'',objetivos:'',afiliacoes:'',
+  attrs:{porrada:0,molejo:0,cabeca:0,resenha:0,aura:0},ppTotal:4,exc:0,psBonus:0,paBonus:0,psAtual:20,paAtual:10,foto:''});
 function merge(d,s){
   const o={...d,...s,attrs:{...d.attrs,...(s.attrs||{})}};
-  for(const k of ['ppTotal','exc','psBonus','paBonus','psDano','paDano']) o[k]=int(o[k]);
-  for(const k in o.attrs) o.attrs[k]=Math.max(0,int(o.attrs[k]));
-  o.exc=Math.max(0,o.exc); o.psDano=Math.max(0,o.psDano); o.paDano=Math.max(0,o.paDano);
+  for(const k of ['ppTotal','exc','psBonus','paBonus']) o[k]=int(o[k]);
+  for(const k in o.attrs) o.attrs[k]=Math.max(ATTR_MIN,int(o.attrs[k]));
+  for(const k of TXT) o[k]=typeof o[k]==='string'?o[k]:'';
+  if(typeof o.foto!=='string') o.foto='';
+  o.exc=Math.max(0,o.exc);
+  const mps=Math.max(0,20+o.attrs.porrada*3+o.psBonus), mpa=Math.max(0,10+o.attrs.aura*3+o.paBonus);
+  // fichas antigas guardavam o dano; converte para o valor atual
+  const aps=typeof s.psAtual==='number'?s.psAtual:mps-Math.max(0,int(s.psDano));
+  const apa=typeof s.paAtual==='number'?s.paAtual:mpa-Math.max(0,int(s.paDano));
+  o.psAtual=clamp(Math.round(aps),0,mps); o.paAtual=clamp(Math.round(apa),0,mpa);
+  delete o.psDano; delete o.paDano;
   return o;
-}
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) return merge(DEF(),s);}catch(e){} return DEF();}
-let st=load(), tmr;
-function save(){
-  try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}
-  const el=$('#saved'); el.classList.add('on'); clearTimeout(tmr); tmr=setTimeout(()=>el.classList.remove('on'),1100);
-  scheduleCloudSave();
 }
 const nivel=exc=>{let n=0;for(let i=1;i<=10;i++) if(exc>=THR[i]) n=i;return n;};
 
-/* ---- montar partes dinâmicas ---- */
+/* ============ biblioteca de fichas (várias fichas, uma ativa) ============ */
+const LKEY='ficha-rpg-caderno-v3', OLDKEY='ficha-rpg-caderno-v2';
+const dirty=new Set();            // fichas com alterações ainda não enviadas à nuvem
+function blankLib(){
+  const id=newId();
+  return {active:id,order:[id],sheets:{[id]:DEF()},u:{[id]:Date.now()},del:[]};
+}
+function loadLib(){
+  try{
+    const s=JSON.parse(localStorage.getItem(LKEY)||'null');
+    if(s&&s.sheets&&Array.isArray(s.order)){
+      const L={active:s.active,order:s.order.filter(id=>s.sheets[id]),sheets:{},u:s.u||{},del:Array.isArray(s.del)?s.del:[]};
+      for(const id of L.order) L.sheets[id]=merge(DEF(),s.sheets[id]);
+      if(L.order.length){ if(!L.sheets[L.active]) L.active=L.order[0]; return L; }
+    }
+  }catch(e){}
+  const L=blankLib();
+  try{ // traz a ficha única da versão anterior
+    const o=JSON.parse(localStorage.getItem(OLDKEY)||'null');
+    if(o) L.sheets[L.active]=merge(DEF(),o);
+  }catch(e){}
+  return L;
+}
+let lib=loadLib();
+let st=lib.sheets[lib.active];
+let tmr;
+function flash(txt='salvo'){
+  const el=$('#saved'); el.textContent=txt; el.classList.add('on');
+  clearTimeout(tmr); tmr=setTimeout(()=>el.classList.remove('on'),1200);
+}
+function persist(){
+  try{localStorage.setItem(LKEY,JSON.stringify(lib));return true;}
+  catch(e){flash('sem espaço!');return false;}
+}
+function save(){
+  lib.u[lib.active]=Date.now(); dirty.add(lib.active);
+  if(persist()) flash('salvo');
+  scheduleCloudSave();
+}
+
+/* ============ montar partes dinâmicas ============ */
 $('#attrs').innerHTML=ATTRS.map(([k,n])=>`
   <div class="attr"><div class="ar1"><b class="an">${n}</b>
     <div class="ctr"><button class="pbtn" type="button" data-k="${k}" data-d="-1" aria-label="Diminuir ${n}">−</button>
@@ -584,27 +598,37 @@ $('#attrs').innerHTML=ATTRS.map(([k,n])=>`
 $('#tab').innerHTML=THR.slice(1).map((v,i)=>`<div class="trow" id="t${i+1}"><span class="tp">P${i+1}</span><span class="td"></span><span class="tv">${v} EXC</span></div>`).join('');
 $('#tabs').innerHTML=PAGES.map((p,i)=>`<button class="tab" role="tab" type="button" data-i="${i}" aria-selected="false"><span class="tl">${p[0]}</span><span class="tp">p. ${p[1]}</span></button>`).join('');
 
-/* ---- atualizar tela ---- */
+/* ============ atualizar tela ============ */
 const setVal=(el,v)=>{ if(document.activeElement!==el) el.value=v; };
-const maxes=()=>({ps:20+st.attrs.porrada*3+st.psBonus, pa:10+st.attrs.aura*3+st.paBonus});
+const maxes=()=>({ps:Math.max(0,20+st.attrs.porrada*3+st.psBonus), pa:Math.max(0,10+st.attrs.aura*3+st.paBonus)});
+const fmtN=v=>v<0?'−'+(-v):String(v);
 function sync(){
-  const A=st.attrs, gasto=Object.values(A).reduce((a,b)=>a+b,0), rest=st.ppTotal-gasto;
+  const A=st.attrs, gasto=Object.values(A).reduce((a,b)=>a+b,0), rest=st.ppTotal-gasto; // negativos somam de volta
   for(const [k] of ATTRS){
-    $('#v-'+k).textContent=A[k];
-    $('#b-'+k).innerHTML=Array.from({length:10},(_,i)=>`<i class="${i<A[k]?'on':''}"></i>`).join('');
+    const v=A[k], el=$('#v-'+k);
+    el.textContent=fmtN(v); el.classList.toggle('neg',v<0);
+    $('#b-'+k).innerHTML=[-2,-1].map(i=>`<i class="neg${v<=i?' on':''}"></i>`).join('')+'<b></b>'+
+      Array.from({length:10},(_,i)=>`<i class="${v>=i+1?'on':''}"></i>`).join('');
   }
   const pr=$('#ppRest'); pr.textContent=rest; pr.className='n'+(rest<0?' neg':'');
   document.querySelectorAll('[data-d="1"]').forEach(b=>b.disabled=rest<=0);
-  document.querySelectorAll('[data-d="-1"]').forEach(b=>b.disabled=A[b.dataset.k]<=0);
+  document.querySelectorAll('[data-d="-1"]').forEach(b=>b.disabled=A[b.dataset.k]<=ATTR_MIN);
   setVal($('#ppTotal'),st.ppTotal);
 
-  const M=maxes(), psCur=clamp(M.ps-st.psDano,0,Math.max(M.ps,0)), paCur=clamp(M.pa-st.paDano,0,Math.max(M.pa,0));
+  // PS e PA atuais ficam como estão; só caem se passarem do máximo
+  const M=maxes();
+  let fix=false;
+  if(st.psAtual>M.ps){st.psAtual=M.ps;fix=true;}
+  if(st.paAtual>M.pa){st.paAtual=M.pa;fix=true;}
+  if(fix){ lib.u[lib.active]=Date.now(); dirty.add(lib.active); persist(); scheduleCloudSave(); }
   $('#psMax').textContent=M.ps; $('#paMax').textContent=M.pa;
-  $('#psA').textContent=A.porrada; $('#paA').textContent=A.aura;
-  setVal($('#psCur'),psCur); setVal($('#paCur'),paCur);
+  $('#psA').textContent=fmtN(A.porrada); $('#paA').textContent=fmtN(A.aura);
+  setVal($('#psCur'),st.psAtual); setVal($('#paCur'),st.paAtual);
   setVal($('#psBonus'),st.psBonus); setVal($('#paBonus'),st.paBonus);
-  $('#psBar').style.setProperty('--p',M.ps>0?psCur/M.ps:0);
-  $('#paBar').style.setProperty('--p',M.pa>0?paCur/M.pa:0);
+  $('#psBar').style.setProperty('--p',M.ps>0?st.psAtual/M.ps:0);
+  $('#paBar').style.setProperty('--p',M.pa>0?st.paAtual/M.pa:0);
+  $('#psBar').style.setProperty('--mx',Math.max(M.ps,1));
+  $('#paBar').style.setProperty('--mx',Math.max(M.pa,1));
 
   const n=nivel(st.exc);
   $('#pNum').textContent='P'+n; setVal($('#exc'),st.exc);
@@ -639,7 +663,7 @@ $('#attrs').addEventListener('click',e=>{
   const b=e.target.closest('button[data-k]'); if(!b||b.disabled) return;
   const d=int(b.dataset.d), rest=st.ppTotal-Object.values(st.attrs).reduce((a,c)=>a+c,0);
   if(d>0&&rest<=0) return;
-  st.attrs[b.dataset.k]=Math.max(0,st.attrs[b.dataset.k]+d); save(); sync();
+  st.attrs[b.dataset.k]=Math.max(ATTR_MIN,st.attrs[b.dataset.k]+d); save(); sync();
 });
 $('#ppTotal').addEventListener('input',e=>{st.ppTotal=Math.max(0,int(e.target.value));save();sync();});
 $('#psBonus').addEventListener('input',e=>{st.psBonus=int(e.target.value);save();sync();});
@@ -650,19 +674,20 @@ document.querySelector('.exc').addEventListener('click',e=>{
   st.exc=Math.max(0,st.exc+int(b.dataset.e)); save(); sync();
 });
 for(const v of ['ps','pa']){
-  const dano=v+'Dano';
+  const key=v+'Atual';
   $('#'+v+'Cur').addEventListener('input',e=>{
-    const max=maxes()[v]; st[dano]=Math.max(0,max-clamp(int(e.target.value),0,Math.max(max,0))); save(); sync();
+    st[key]=clamp(int(e.target.value),0,maxes()[v]); save(); sync();
   });
+  $('#'+v+'Cur').addEventListener('blur',sync);
   document.querySelector(`[data-vital="${v}"]`).addEventListener('click',e=>{
     const b=e.target.closest('button[data-s]'); if(!b) return;
-    if(b.dataset.s==='full') st[dano]=0;
-    else st[dano]=clamp(st[dano]-int(b.dataset.s),0,Math.max(maxes()[v],0));
+    const max=maxes()[v];
+    st[key]=b.dataset.s==='full'?max:clamp(st[key]+int(b.dataset.s),0,max);
     save(); sync();
   });
 }
 
-/* ---- foto (reduzida para caber no armazenamento) ---- */
+/* ---- foto (reduzida para caber no armazenamento e na nuvem) ---- */
 $('#photo').onclick=()=>$('#fotoIn').click();
 $('#fotoIn').onchange=e=>{
   const f=e.target.files[0]; if(!f) return;
@@ -677,7 +702,7 @@ $('#fotoIn').onchange=e=>{
 };
 $('#rmFoto').onclick=()=>{st.foto='';save();sync();};
 
-/* ---- virar páginas ---- */
+/* ============ páginas do caderno ============ */
 const spreads=[...document.querySelectorAll('.spread')], tabs=[...document.querySelectorAll('.tab')];
 let cur=-1;
 function show(i,animate=true){
@@ -690,6 +715,7 @@ function show(i,animate=true){
   if(animate&&dir>0) sp.querySelector('.right').classList.add('flipF');
   if(animate&&dir<0) sp.querySelector('.left').classList.add('flipB');
   cur=i; areas.forEach(autosize);
+  if(i===5) renderList();
   try{history.replaceState(null,'','#p'+(i+1));}catch(e){}
 }
 tabs.forEach(t=>t.addEventListener('click',()=>show(+t.dataset.i)));
@@ -699,78 +725,256 @@ document.addEventListener('keydown',e=>{
 });
 addEventListener('resize',()=>areas.forEach(autosize));
 
-/* ---- ferramentas ---- */
-$('#bPrint').onclick=()=>window.print();
-$('#bExp').onclick=()=>{
-  const blob=new Blob([JSON.stringify(st,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download='ficha-'+((st.nome||'personagem').trim().toLowerCase().replace(/[^a-z0-9à-ú]+/gi,'-').replace(/^-|-$/g,'')||'personagem')+'.json';
+/* ============ lista de fichas (mostra a classe de cada uma) ============ */
+function renderList(){
+  $('#fichas').innerHTML=lib.order.map(id=>{
+    const s=lib.sheets[id], nome=s.nome.trim()||'sem nome', cls=s.estereotipo.trim();
+    return `<div class="ficha${id===lib.active?' on':''}" data-id="${esc(id)}">
+      <button class="fopen" type="button" data-act="open" aria-label="Abrir ${esc(nome)}"><span class="fn">${esc(nome)}</span><span class="fs"><b>classe:</b>${cls?esc(cls):'<i>sem classe</i>'}</span></button>
+      <span class="fp" title="Prestígio">P${nivel(s.exc)}</span>
+      <span class="fact"><button class="lnk" type="button" data-act="dup">copiar</button><button class="lnk" type="button" data-act="del">apagar</button></span></div>`;
+  }).join('');
+  const n=lib.order.length;
+  $('#listNote').textContent=n+(n===1?' ficha':' fichas')+' neste caderno';
+}
+function setActive(id){
+  lib.active=id; st=lib.sheets[id]; persist(); fillText(); sync(); renderList();
+}
+function addFicha(data,open=true){
+  const id=newId();
+  lib.sheets[id]=data?merge(DEF(),data):DEF(); lib.u[id]=Date.now(); lib.order.push(id); dirty.add(id);
+  if(open) setActive(id); else renderList();
+  persist(); scheduleCloudSave();
+  return id;
+}
+function dupFicha(id){
+  const id2=newId(), c=JSON.parse(JSON.stringify(lib.sheets[id]));
+  c.nome=(c.nome.trim()||'sem nome')+' (cópia)';
+  lib.sheets[id2]=c; lib.u[id2]=Date.now(); dirty.add(id2);
+  lib.order.splice(lib.order.indexOf(id)+1,0,id2);
+  persist(); renderList(); scheduleCloudSave(); flash('copiada');
+}
+function delFicha(id){
+  const nome=lib.sheets[id].nome.trim()||'sem nome';
+  if(!confirm(`Apagar a ficha "${nome}"? Isso não dá para desfazer (exporte antes se quiser guardar).`)) return;
+  const eraAtiva=id===lib.active;
+  lib.order=lib.order.filter(x=>x!==id); delete lib.sheets[id]; delete lib.u[id]; dirty.delete(id);
+  if(!lib.del.includes(id)) lib.del.push(id);
+  if(!lib.order.length){ const nid=newId(); lib.sheets[nid]=DEF(); lib.u[nid]=Date.now(); lib.order.push(nid); lib.active=nid; st=lib.sheets[nid]; fillText(); sync(); }
+  else if(eraAtiva){ lib.active=lib.order[0]; st=lib.sheets[lib.active]; fillText(); sync(); }
+  persist(); renderList(); flushDeletes();
+}
+$('#fichas').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-act]'); if(!b) return;
+  const id=b.closest('.ficha').dataset.id;
+  if(b.dataset.act==='open'){ if(id!==lib.active) setActive(id); show(0); }
+  else if(b.dataset.act==='dup') dupFicha(id);
+  else if(b.dataset.act==='del') delFicha(id);
+});
+$('#bNova').onclick=()=>{ addFicha(null,true); show(0); };
+
+/* ============ exportar, importar, imprimir ============ */
+function download(name,obj){
+  const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name;
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function setMsg(el,text,error=false){ el.textContent=text; el.classList.toggle('err',!!error); }
+const fileMsg=$('#fileMsg');
+$('#bExp').onclick=()=>{ download('ficha-'+slug(st.nome)+'.json',st); setMsg(fileMsg,'Ficha exportada.'); };
+$('#bExpAll').onclick=()=>{
+  download('caderno-rpg-fichas.json',{formato:'caderno-rpg',fichas:lib.order.map(id=>lib.sheets[id])});
+  setMsg(fileMsg,lib.order.length+(lib.order.length===1?' ficha exportada.':' fichas exportadas.'));
 };
 $('#bImp').onclick=()=>$('#impIn').click();
 $('#impIn').onchange=e=>{
   const f=e.target.files[0]; if(!f) return;
   const r=new FileReader();
-  r.onload=()=>{try{st=merge(DEF(),JSON.parse(r.result)); fillText(); save(); sync();}catch(err){alert('Esse arquivo não parece ser uma ficha válida.');}};
+  r.onload=()=>{
+    try{
+      const j=JSON.parse(r.result);
+      const list=Array.isArray(j)?j:(j&&Array.isArray(j.fichas)?j.fichas:[j]);
+      const ok=list.filter(x=>x&&typeof x==='object'&&!Array.isArray(x)&&(x.attrs||TXT.some(k=>k in x)));
+      if(!ok.length) throw new Error('vazio');
+      let last=null; for(const x of ok) last=addFicha(x,false);
+      setActive(last);
+      setMsg(fileMsg,ok.length===1?'Ficha importada como nova ficha.':ok.length+' fichas importadas.');
+    }catch(err){ setMsg(fileMsg,'Esse arquivo não parece ser uma ficha válida.',true); }
+  };
   r.readAsText(f); e.target.value='';
 };
-$('#bReset').onclick=()=>{ if(confirm('Apagar a ficha atual e começar uma nova? Exporte antes se quiser guardar.')){st=DEF();fillText();save();sync();} };
+$('#bPrint').onclick=()=>window.print();
 
-fillText(); sync();
-if (!firebasePronto) {
-  setSignedInUI(null);
-  setAccountMessage('Para ativar login e nuvem, siga o guia de configuração e substitua os 4 valores de firebaseConfig no código. Por enquanto, a ficha salva só neste navegador.');
-} else {
-  onAuthStateChanged(auth, async user => {
-    cloudLoaded = false;
-    cloudUser = user || null;
-    setSignedInUI(user);
-    if (!user) {
-      clearTimeout(cloudTimer);
-      setAccountMessage('Você está desconectado. A ficha continua salva neste navegador. Entre para sincronizar.');
+/* ============ conta e nuvem ============ */
+let cloudUser=null, cloudLoaded=false, cloudTimer=null, chain=Promise.resolve();
+const accountStatus=$('#accountStatus'), accountMessage=$('#accountMessage');
+const emailInput=$('#accountEmail'), passwordInput=$('#accountPassword');
+const setAccountMessage=(m,err=false)=>setMsg(accountMessage,m,err);
+
+function firebaseErrorMessage(error){
+  const code=error?.code||'';
+  const messages={
+    'auth/invalid-email':'Esse e-mail não parece válido.',
+    'auth/missing-password':'Digite sua senha.',
+    'auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.',
+    'auth/email-already-in-use':'Já existe uma conta com esse e-mail. Tente entrar.',
+    'auth/invalid-credential':'E-mail ou senha incorretos.',
+    'auth/user-not-found':'Conta não encontrada. Você pode criar uma conta.',
+    'auth/wrong-password':'Senha incorreta.',
+    'auth/popup-closed-by-user':'A janela do Google foi fechada antes de concluir o login.',
+    'auth/popup-blocked':'O navegador bloqueou a janela de login. Permita pop-ups para este site.',
+    'auth/unauthorized-domain':'Este domínio não está autorizado no Firebase Authentication.',
+    'permission-denied':'O Firebase recusou o acesso. Confira as regras do Firestore.',
+    'firestore/permission-denied':'O Firebase recusou o acesso. Confira as regras do Firestore.',
+    'resource-exhausted':'O limite de uso do Firebase pode ter sido atingido.'
+  };
+  return messages[code]||(error?.message&&!code?error.message:'')||'Ocorreu um erro inesperado.';
+}
+function setSignedInUI(user){
+  const on=!!user;
+  $('#accountControls').hidden=on;
+  $('#accountOut').hidden=!on;
+  accountStatus.textContent=on?`Conectado: ${user.email||user.displayName||'conta Google'}`:(firebasePronto?'Não conectado':'Firebase ainda não configurado');
+}
+const sheetDoc=(uid,id)=>doc(db,'users',uid,'sheets',id);
+
+function scheduleCloudSave(){
+  if(!cloudUser||!cloudLoaded||!db) return;
+  clearTimeout(cloudTimer);
+  cloudTimer=setTimeout(()=>{ const u=cloudUser; chain=chain.then(()=>pushDirty(u)).catch(()=>{}); },700);
+}
+async function flushDeletes(){
+  if(!cloudUser||!cloudLoaded||!db) return;
+  for(const id of [...lib.del]){
+    try{ await deleteDoc(sheetDoc(cloudUser.uid,id)); lib.del=lib.del.filter(x=>x!==id); persist(); }
+    catch(e){ console.error('Erro ao apagar na nuvem:',e); break; }
+  }
+}
+async function pushDirty(user){
+  if(!cloudUser||cloudUser.uid!==user.uid||!cloudLoaded) return;
+  for(const id of [...dirty]){
+    const sh=lib.sheets[id]; if(!sh){dirty.delete(id);continue;}
+    // Firestore limita cada documento a 1 MiB; a foto já é comprimida antes de salvar.
+    if(new Blob([JSON.stringify(sh)]).size>900000){
+      setAccountMessage(`A ficha "${sh.nome.trim()||'sem nome'}" está grande demais para a nuvem. Reduza ou remova a foto.`,true);
+      dirty.delete(id); continue;
+    }
+    try{
+      await setDoc(sheetDoc(user.uid,id),{sheet:sh,u:lib.u[id]||Date.now(),updatedAt:serverTimestamp()});
+      dirty.delete(id);
+    }catch(error){
+      console.error('Erro ao salvar a ficha no Firebase:',error);
+      setAccountMessage('Não foi possível sincronizar: '+firebaseErrorMessage(error),true);
       return;
     }
-    try {
-      const previousOwner = localStorage.getItem(OWNER_KEY);
-      // Evita copiar a ficha de uma conta anterior para outra conta no mesmo navegador.
-      if (previousOwner && previousOwner !== user.uid) {
-        st = DEF();
-        fillText();
-        sync();
-        try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {}
+  }
+  await flushDeletes();
+  if(!dirty.size&&cloudUser?.uid===user.uid) setAccountMessage('Fichas sincronizadas com a nuvem.');
+}
+function resetLib(){
+  lib=blankLib(); st=lib.sheets[lib.active]; dirty.clear();
+  persist(); fillText(); sync(); renderList();
+}
+async function cloudMerge(user){
+  const snap=await getDocs(collection(db,'users',user.uid,'sheets'));
+  const remote={};
+  snap.forEach(d=>{
+    const x=d.data();
+    if(x&&x.sheet) remote[d.id]={sheet:x.sheet,u:x.u||(x.updatedAt&&x.updatedAt.toMillis?x.updatedAt.toMillis():0)};
+  });
+  // apagadas aqui enquanto estava sem conexão
+  for(const id of [...lib.del]){
+    if(remote[id]){ await deleteDoc(sheetDoc(user.uid,id)); delete remote[id]; }
+    lib.del=lib.del.filter(x=>x!==id);
+  }
+  const remoteIds=Object.keys(remote);
+  // fichas locais em branco não valem a pena quando a nuvem já tem fichas
+  if(remoteIds.length){
+    const blank=JSON.stringify(DEF());
+    for(const id of [...lib.order]){
+      if(!remote[id]&&JSON.stringify(lib.sheets[id])===blank){
+        lib.order=lib.order.filter(x=>x!==id); delete lib.sheets[id]; delete lib.u[id]; dirty.delete(id);
       }
-      setAccountMessage('Carregando sua ficha da nuvem…');
-      const ref = sheetRef(user.uid);
-      const snap = await getDoc(ref);
-      if (cloudUser?.uid !== user.uid) return;
-      if (snap.exists() && snap.data()?.sheet) {
-        st = merge(DEF(), snap.data().sheet);
-        fillText();
-        sync();
-        try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {}
-        setAccountMessage('Ficha carregada da nuvem.');
-      } else {
-        // Primeiro login: importa a ficha local existente para a conta, se houver.
-        const serialized = JSON.stringify(st);
-        if (new Blob([serialized]).size > 900000) {
-          setAccountMessage('A ficha local está grande demais para a nuvem. Remova ou reduza a foto antes de sincronizar.', true);
-          cloudLoaded = true;
-          localStorage.setItem(OWNER_KEY, user.uid);
-          return;
-        }
-        await setDoc(ref, { sheet: st, updatedAt: serverTimestamp() });
-        setAccountMessage('Conta conectada. Sua ficha local foi salva na nuvem.');
-      }
-      localStorage.setItem(OWNER_KEY, user.uid);
-      cloudLoaded = true;
-    } catch (error) {
-      console.error('Erro ao carregar a ficha do Firebase:', error);
-      setAccountMessage('Não foi possível carregar/salvar a ficha: ' + firebaseErrorMessage(error), true);
-      cloudLoaded = true;
+    }
+  }
+  // vence a versão mais recente de cada ficha
+  for(const id of remoteIds){
+    const r=remote[id];
+    if(!lib.sheets[id]){ lib.sheets[id]=merge(DEF(),r.sheet); lib.u[id]=r.u; lib.order.push(id); }
+    else if(r.u>(lib.u[id]||0)){ lib.sheets[id]=merge(DEF(),r.sheet); lib.u[id]=r.u; dirty.delete(id); }
+  }
+  for(const id of lib.order) if(!remote[id]||(lib.u[id]||0)>remote[id].u) dirty.add(id);
+  if(!lib.order.length){ const id=newId(); lib.sheets[id]=DEF(); lib.u[id]=Date.now(); lib.order.push(id); dirty.add(id); }
+  if(!lib.sheets[lib.active]) lib.active=lib.order[0];
+  st=lib.sheets[lib.active];
+  persist(); fillText(); sync(); renderList();
+}
+
+async function runAuthAction(action){
+  if(!firebasePronto||!auth){
+    setAccountMessage('Antes, configure firebaseConfig no início do código e habilite Authentication e Firestore no Firebase Console.',true);
+    return;
+  }
+  try{ setAccountMessage('Conectando…'); await action(); }
+  catch(error){ console.error('Erro de autenticação Firebase:',error); setAccountMessage(firebaseErrorMessage(error),true); }
+}
+$('#loginEmail').addEventListener('click',()=>runAuthAction(()=>{
+  const email=emailInput.value.trim(), password=passwordInput.value;
+  if(!email||!password) throw new Error('Preencha o e-mail e a senha.');
+  return signInWithEmailAndPassword(auth,email,password);
+}));
+$('#registerEmail').addEventListener('click',()=>runAuthAction(()=>{
+  const email=emailInput.value.trim(), password=passwordInput.value;
+  if(!email||!password) throw new Error('Preencha o e-mail e a senha.');
+  if(password.length<6) throw new Error('A senha precisa ter pelo menos 6 caracteres.');
+  return createUserWithEmailAndPassword(auth,email,password);
+}));
+$('#loginGoogle').addEventListener('click',()=>runAuthAction(()=>signInWithPopup(auth,googleProvider)));
+$('#logoutAccount').addEventListener('click',()=>runAuthAction(async()=>{
+  await signOut(auth);
+  setAccountMessage('Você saiu da conta. As fichas continuam salvas neste navegador.');
+}));
+$('#syncNow').addEventListener('click',()=>runAuthAction(async()=>{
+  if(!cloudUser) throw new Error('Entre na conta primeiro.');
+  cloudLoaded=false;
+  await cloudMerge(cloudUser);
+  cloudLoaded=true;
+  await pushDirty(cloudUser);
+  setAccountMessage('Tudo sincronizado.');
+}));
+
+if(!firebasePronto){
+  setSignedInUI(null);
+  setAccountMessage('Para ativar login e nuvem, substitua os valores de firebaseConfig no código. Por enquanto, as fichas salvam só neste navegador.');
+}else{
+  onAuthStateChanged(auth,async user=>{
+    cloudLoaded=false; cloudUser=user||null; setSignedInUI(user);
+    if(!user){
+      clearTimeout(cloudTimer);
+      setAccountMessage('Você está desconectado. As fichas continuam salvas neste navegador. Entre para sincronizar.');
+      return;
+    }
+    try{
+      const prev=localStorage.getItem(OWNER_KEY);
+      // evita misturar as fichas de uma conta anterior com as de outra no mesmo navegador
+      if(prev&&prev!==user.uid) resetLib();
+      setAccountMessage('Carregando suas fichas da nuvem…');
+      await cloudMerge(user);
+      if(cloudUser?.uid!==user.uid) return;
+      try{localStorage.setItem(OWNER_KEY,user.uid);}catch(e){}
+      cloudLoaded=true;
+      await pushDirty(user);
+      setAccountMessage('Fichas sincronizadas com a nuvem.');
+    }catch(error){
+      console.error('Erro ao carregar as fichas do Firebase:',error);
+      setAccountMessage('Não foi possível carregar as fichas: '+firebaseErrorMessage(error)+' Use "sincronizar agora" para tentar de novo.',true);
     }
   });
 }
-const m=location.hash.match(/^#p(\d)$/); show(m?int(m[1])-1:0,false);
+
+/* ============ início ============ */
+fillText(); sync(); renderList();
+const hm=location.hash.match(/^#p(\d+)$/); show(hm?int(hm[1])-1:0,false);
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>areas.forEach(autosize));
 </script>
 </body>
