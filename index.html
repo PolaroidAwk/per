@@ -209,26 +209,7 @@
       overflow-wrap: anywhere;
     }
 
-    .hero-description {
-      max-width: 590px;
-      margin: 0 auto;
-      color: #45423d;
-      font-size: 15px;
-      line-height: 1.9;
-    }
 
-    .scribble {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 4px 12px;
-      border: 1px solid var(--orange);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transform: rotate(-1deg);
-    }
 
     /* Navegação */
 
@@ -440,54 +421,61 @@
       background: var(--black);
     }
 
-    /* Fichas expansíveis */
-
-    .sheet-details {
-      margin-top: 14px;
-      border: 1px dashed var(--black);
-      background: rgba(255, 254, 249, 0.45);
+    .sheet-picker {
+      width: min(92vw, 420px);
+      padding: 0;
+      color: var(--black);
+      background: var(--paper);
+      border: 2px solid var(--black);
+      box-shadow: 8px 8px 0 var(--orange);
     }
 
-    .sheet-details summary {
-      padding: 13px 16px;
-      cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      list-style-position: inside;
-      text-transform: uppercase;
+    .sheet-picker::backdrop {
+      background: rgba(32, 32, 32, 0.65);
+      backdrop-filter: blur(2px);
     }
 
-    .sheet-details summary::marker {
-      color: var(--orange-dark);
+    .sheet-picker-content {
+      position: relative;
+      padding: 28px;
     }
 
-    .sheet-options {
-      display: grid;
-      gap: 10px;
-      padding: 0 14px 14px;
+    .sheet-picker-content h3 {
+      margin: 16px 0 6px;
+      font-family: var(--font-title);
+      font-size: 25px;
+      font-weight: 400;
     }
 
-    .sheet-option {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 13px;
-      background: var(--white);
-      border: 1px solid var(--line);
-    }
-
-    .sheet-option strong {
-      display: block;
+    .sheet-picker-content p {
+      margin: 0 0 20px;
+      color: var(--grey);
       font-size: 13px;
     }
 
-    .sheet-option small {
-      display: block;
-      color: var(--grey);
-      font-size: 11px;
+    .sheet-picker-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
+
+    .sheet-picker-options .download-button {
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .sheet-picker-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      padding: 0 5px;
+      color: var(--black);
+      background: transparent;
+      border: 0;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
 
     /* Suplementos e homebrews */
 
@@ -698,9 +686,6 @@
         margin-bottom: 16px;
       }
 
-      .hero-description {
-        font-size: 13px;
-      }
 
       .navigation {
         gap: 4px;
@@ -765,8 +750,8 @@
     <div class="content">
 
       <div class="top-note">
-        <span>Arquivo independente de RPG</span>
-        <span>Documento nº 001 — Edição digital</span>
+        <span>PUTARIA EXPLÍCITA RPG</span>
+        <span>V 1.0.0</span>
       </div>
 
       <header class="hero">
@@ -781,13 +766,6 @@
           Putaria Explícita RPG
         </div>
 
-        <p class="hero-description">
-          Um sistema de RPG de mesa independente. Pegue o manual,
-          prepare sua ficha, reúna seus amigos e descubra até onde
-          suas decisões vão levar a campanha.
-        </p>
-
-        <span class="scribble">Leia por sua própria conta e risco</span>
       </header>
 
       <nav class="navigation" aria-label="Navegação principal">
@@ -845,84 +823,43 @@
               href="downloads/manual.pdf"
               download
             >
-              ↓ Baixar manual
+              Baixar
             </a>
           </article>
 
           <article class="download-item">
             <div class="download-info">
-              <h3>Ficha Digital</h3>
+              <h3>Ficha de Personagem</h3>
               <p>
-                Para quem prefere preencher e consultar a ficha
-                diretamente no computador ou celular.
+                Escolha a versão digital para preencher no dispositivo
+                ou a versão para impressão para preencher à mão.
               </p>
-              <span class="file-label">PDF · DIGITAL</span>
+              <span class="file-label">PDF · FICHA DE PERSONAGEM</span>
             </div>
 
-            <a
+            <button
               class="download-button"
-              href="downloads/ficha-digital.pdf"
-              download
+              id="open-sheet-picker"
+              type="button"
             >
-              ↓ Baixar ficha
-            </a>
-          </article>
-
-          <article class="download-item">
-            <div class="download-info">
-              <h3>Ficha para Impressão</h3>
-              <p>
-                Uma versão para imprimir e preencher à mão
-                durante as sessões.
-              </p>
-              <span class="file-label">PDF · IMPRESSÃO</span>
-            </div>
-
-            <a
-              class="download-button"
-              href="downloads/ficha-imprimir.pdf"
-              download
-            >
-              ↓ Baixar ficha
-            </a>
+              Baixar
+            </button>
           </article>
         </div>
 
-        <details class="sheet-details">
-          <summary>Ver todas as opções de ficha</summary>
-
-          <div class="sheet-options">
-            <div class="sheet-option">
-              <div>
-                <strong>Ficha digital</strong>
-                <small>Versão em PDF para uso digital.</small>
-              </div>
-
-              <a
-                class="download-button"
-                href="downloads/ficha-digital.pdf"
-                download
-              >
-                Baixar PDF
-              </a>
-            </div>
-
-            <div class="sheet-option">
-              <div>
-                <strong>Ficha para impressão</strong>
-                <small>Versão em PDF para imprimir.</small>
-              </div>
-
-              <a
-                class="download-button"
-                href="downloads/ficha-imprimir.pdf"
-                download
-              >
-                Baixar PDF
-              </a>
+        <dialog class="sheet-picker" id="sheet-picker" aria-labelledby="sheet-picker-title">
+          <div class="sheet-picker-content">
+            <button class="sheet-picker-close" id="close-sheet-picker" type="button" aria-label="Fechar">×</button>
+            <span class="file-label">FICHA DE PERSONAGEM</span>
+            <h3 id="sheet-picker-title">Qual versão você quer?</h3>
+            <p>Escolha como você pretende usar a ficha.</p>
+            <div class="sheet-picker-options">
+              <a class="download-button primary" href="downloads/ficha-digital.pdf" download>Digital</a>
+              <a class="download-button" href="downloads/ficha-imprimir.pdf" download>Impressão</a>
             </div>
           </div>
-        </details>
+        </dialog>
+
       </section>
 
       <section class="section" id="suplementos">
@@ -1149,6 +1086,17 @@
 
     renderResources(supplementsContainer, supplements, "supplement");
     renderResources(homebrewsContainer, homebrews, "homebrew");
+
+    const sheetPicker = document.getElementById("sheet-picker");
+    document.getElementById("open-sheet-picker").addEventListener("click", () => {
+      sheetPicker.showModal();
+    });
+    document.getElementById("close-sheet-picker").addEventListener("click", () => {
+      sheetPicker.close();
+    });
+    sheetPicker.addEventListener("click", (event) => {
+      if (event.target === sheetPicker) sheetPicker.close();
+    });
 
     /*
      * ANO AUTOMÁTICO NO RODAPÉ
