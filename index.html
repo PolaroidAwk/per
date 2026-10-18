@@ -1,981 +1,885 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ficha de Personagem</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ink:#15141a; --red:#c0221b; --paper:#efede6; --rule:rgba(88,104,122,.34); --desk:#241811;
-  --hw:'Kalam','Segoe Print','Bradley Hand','Comic Sans MS',cursive;
-  --scrawl:'Reenie Beanie','Segoe Script','Bradley Hand','Comic Sans MS',cursive;
-  --u:34px;
-}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-html{background:#1a120c}
-html,body{margin:0}
-/* mesa de madeira escura (sem branco em lugar nenhum) */
-body{min-height:100vh;color:var(--ink);font:400 1.2rem/var(--u) var(--hw);
-  background-color:var(--desk);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='520'%3E%3Cfilter id='w' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.004 .11' numOctaves='4' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 .44  0 0 0 0 .28  0 0 0 0 .16  1.6 0 0 0 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E"),
-    radial-gradient(900px 520px at 50% 26%,rgba(255,232,196,.12),transparent 70%),
-    radial-gradient(ellipse at 50% 40%,transparent 42%,rgba(0,0,0,.62) 100%);
-  background-size:900px 520px,auto,auto;
-  background-attachment:scroll,fixed,fixed;
-  -webkit-print-color-adjust:exact;print-color-adjust:exact}
-button,input,textarea{font:inherit;color:inherit}
-:focus-visible{outline:2px dashed var(--red);outline-offset:3px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ee">
 
-/* ===== mesa e livro ===== */
-.desk{padding:26px 14px 40px}
-.shell{display:grid;grid-template-columns:minmax(0,1120px) 112px;justify-content:center;align-items:start}
-.book{position:relative;perspective:2600px;
-  box-shadow:3px 3px 0 #cfccc1,6px 6px 0 #aaa79c,9px 9px 0 #cfccc1,12px 12px 0 #a09d92,0 34px 60px rgba(0,0,0,.7)}
-.spread{display:grid;grid-template-columns:1fr 1fr;perspective:2400px}
-.spread[hidden]{display:none}
-.gutter{position:absolute;left:50%;top:0;bottom:0;width:50px;margin-left:-25px;z-index:6;pointer-events:none;
-  background:
-    radial-gradient(circle 9px at 9px 17px,rgba(0,0,0,.4) 0 50%,transparent 100%) 0 0/50px 34px repeat-y,
-    radial-gradient(circle 9px at 41px 17px,rgba(0,0,0,.4) 0 50%,transparent 100%) 0 0/50px 34px repeat-y,
-    radial-gradient(circle 5px at 9px 17px,#171614 0 97%,transparent 100%) 0 0/50px 34px repeat-y,
-    radial-gradient(circle 5px at 41px 17px,#171614 0 97%,transparent 100%) 0 0/50px 34px repeat-y,
-    linear-gradient(to bottom,transparent 11px,#0c0c0c 11px 13px,#a8a8a8 13px 16px,#0c0c0c 16px 19px,transparent 19px) 0 0/50px 34px repeat-y}
+  <title>NOME DO SISTEMA — Arquivos</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
-/* ===== página ===== */
-.page{position:relative;min-height:748px;padding:68px 34px 52px 80px;overflow:hidden;text-shadow:0 0 .5px currentColor;
-  background:
-    linear-gradient(90deg,transparent 56px,rgba(192,34,27,.78) 56px 58px,transparent 58px),
-    repeating-linear-gradient(to bottom,transparent 0 33px,var(--rule) 33px 34px),
-    var(--paper)}
-.page input,.page textarea,.page button{text-shadow:inherit}
-.page.left{transform:rotate(-.22deg);box-shadow:inset -26px 0 26px -18px rgba(0,0,0,.45),inset 0 0 60px rgba(70,55,30,.16)}
-.page.right{transform:rotate(.18deg);box-shadow:inset 26px 0 26px -18px rgba(0,0,0,.45),inset 0 0 60px rgba(70,55,30,.16)}
-.page>*{position:relative;z-index:1}
-/* papel amassado: ruído iluminado + vincos */
-.page::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:multiply;opacity:.6;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='720' height='820'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008 .012' numOctaves='5' seed='8'/%3E%3CfeDiffuseLighting lighting-color='%23ffffff' surfaceScale='3.4'%3E%3CfeDistantLight azimuth='235' elevation='56'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E") center/cover}
-.page.right::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='720' height='820'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.011 .007' numOctaves='5' seed='21'/%3E%3CfeDiffuseLighting lighting-color='%23ffffff' surfaceScale='3.4'%3E%3CfeDistantLight azimuth='40' elevation='56'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E")}
-.page::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
-  background:
-    linear-gradient(104deg,transparent 31.6%,rgba(0,0,0,.16) 31.8%,rgba(255,255,255,.5) 32.2%,transparent 32.9%),
-    linear-gradient(72deg,transparent 63%,rgba(0,0,0,.11) 63.2%,rgba(255,255,255,.45) 63.6%,transparent 64.3%),
-    linear-gradient(166deg,transparent 46%,rgba(0,0,0,.09) 46.2%,rgba(255,255,255,.4) 46.6%,transparent 47.3%)}
-.page.right::before{background:
-    linear-gradient(78deg,transparent 41%,rgba(0,0,0,.15) 41.2%,rgba(255,255,255,.5) 41.6%,transparent 42.3%),
-    linear-gradient(118deg,transparent 70%,rgba(0,0,0,.11) 70.2%,rgba(255,255,255,.45) 70.6%,transparent 71.3%),
-    linear-gradient(8deg,transparent 28%,rgba(0,0,0,.08) 28.2%,rgba(255,255,255,.4) 28.6%,transparent 29.3%)}
-.ear{position:absolute!important;right:0;bottom:0;width:54px;height:54px;z-index:2;
-  background:linear-gradient(135deg,transparent 50%,#bdb9ad 50%,#e4e1d8 62%);box-shadow:-3px -3px 6px rgba(0,0,0,.18)}
-.pn{position:absolute!important;bottom:6px;left:84px;font:400 1.7rem/1 var(--scrawl);z-index:1}
-.page.right .pn{left:auto;right:60px}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-/* ===== sujeira e rabiscos de caneta (sem desenhos, só marcas) ===== */
-.scr{position:absolute!important;fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.78;pointer-events:none;z-index:1;
-  aspect-ratio:140/44;height:auto;filter:url(#wob2)}
-.scr.r{stroke:var(--red)}
-.smudge{position:absolute!important;pointer-events:none;border-radius:50%;z-index:1;filter:blur(5px);
-  background:radial-gradient(ellipse,rgba(55,55,65,.34),transparent 70%)}
-.ring{position:absolute!important;pointer-events:none;width:150px;height:150px;border-radius:50%;z-index:2;mix-blend-mode:multiply;
-  border:7px solid rgba(104,70,36,.17);box-shadow:inset 0 0 7px rgba(104,70,36,.14),0 0 5px rgba(104,70,36,.1)}
-
-/* ===== escrita ===== */
-.hd{position:relative;margin:0;height:68px;line-height:68px;font:400 3.1rem/68px var(--scrawl);letter-spacing:.01em;filter:url(#rough)}
-.hd::after{content:"";position:absolute;left:0;bottom:6px;width:min(100%,250px);height:14px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 14' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 1 90 8 130 4 S210 3 248 5 M6 11 C60 8 110 12 160 9 S220 10 244 8' fill='none' stroke='%23c0221b' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat}
-.fld{display:flex;align-items:flex-end;gap:10px;height:var(--u);margin-bottom:var(--u)}
-.fld.tight{margin-bottom:0}
-.fld label{font:400 1.9rem/26px var(--scrawl);color:var(--red);white-space:nowrap}
-.in{flex:1;min-width:0;height:var(--u);padding:0 4px;border:0;background:transparent;font:400 1.3rem/var(--u) var(--hw);color:var(--ink)}
-.in.big{font-size:1.65rem;font-weight:700}
-.in::placeholder,textarea::placeholder{color:rgba(21,20,26,.3);font-weight:300}
-.in:focus,textarea:focus{outline:none;box-shadow:inset 0 -2px 0 var(--red)}
-textarea{display:block;width:100%;resize:none;overflow:hidden;border:0;background:transparent;padding:0 4px;font:400 1.25rem/var(--u) var(--hw);color:var(--ink)}
-input[type=number]{-moz-appearance:textfield;appearance:textfield}
-input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-.red{color:var(--red)}
-.cola{font:400 1.75rem/var(--u) var(--scrawl);color:var(--red);filter:url(#rough)}
-
-/* contorno a caneta (borda com tremida) */
-.pen{position:relative}
-.pen::before{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:3px;filter:url(#wob);pointer-events:none}
-.pen.rd::before{border-color:var(--red)}
-
-/* ===== foto ===== */
-.photo{position:relative;display:block;width:158px;height:210px;margin-top:var(--u);padding:7px;background:#fbfbf8;border:0;cursor:pointer;
-  transform:rotate(-2.2deg);box-shadow:0 3px 9px rgba(0,0,0,.35)}
-.photo::before,.photo::after{content:"";position:absolute;width:62px;height:24px;background:rgba(216,206,174,.82);box-shadow:0 1px 2px rgba(0,0,0,.18)}
-.photo::before{top:-11px;left:-16px;transform:rotate(-38deg)}
-.photo::after{bottom:-10px;right:-16px;transform:rotate(-38deg)}
-.photo .ph{display:grid;place-items:center;width:100%;height:100%;background:#dedcd5 center/cover no-repeat;text-align:center;font:400 1.7rem/1.05 var(--scrawl);color:var(--red);filter:grayscale(1) contrast(1.12)}
-.photo .ph.has{color:transparent}
-.rm{display:none;margin:12px 0 0 6px;border:0;background:none;padding:0;font:400 1.5rem/1 var(--scrawl);color:var(--red);text-decoration:underline;cursor:pointer}
-.rm.on{display:inline-block}
-
-/* ===== atributos ===== */
-.postit{position:absolute!important;right:22px;top:16px;width:124px;padding:12px 8px 10px;background:#f1dd6b;box-shadow:0 4px 9px rgba(0,0,0,.3);transform:rotate(3.5deg);text-align:center;line-height:1.1;z-index:4}
-.postit::before{content:"";position:absolute;top:-9px;left:50%;width:56px;height:18px;margin-left:-28px;background:rgba(216,206,174,.85);transform:rotate(-3deg);box-shadow:0 1px 2px rgba(0,0,0,.18)}
-.postit small{display:block;font:400 1.35rem/1 var(--scrawl)}
-.postit .n{font:400 3.4rem/1 var(--scrawl);color:var(--red)}
-.postit .n.neg{text-decoration:underline wavy var(--ink)}
-.postit label{display:flex;align-items:center;justify-content:center;gap:4px;font:400 1.3rem/1 var(--scrawl)}
-.postit input{width:34px;text-align:center;border:0;border-bottom:2px solid var(--ink);background:transparent;font:700 1rem/1.2 var(--hw)}
-.attr{height:calc(var(--u)*2)}
-.ar1{display:flex;align-items:center;justify-content:space-between;height:var(--u)}
-.an{font:700 1.3rem/var(--u) var(--hw)}
-.ctr{display:flex;align-items:center;gap:8px}
-.val{min-width:44px;text-align:center;font:400 2.5rem/var(--u) var(--scrawl)}
-.val.neg{color:var(--red)}
-.pbtn{position:relative;width:30px;height:28px;padding:0;border:0;background:transparent;cursor:pointer;font:700 1.25rem/26px var(--hw);text-align:center}
-.pbtn::before{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:3px;filter:url(#wob)}
-.pbtn:hover:not(:disabled){color:var(--red)}
-.pbtn:active:not(:disabled){transform:translateY(1px)}
-.pbtn:disabled{opacity:.28;cursor:not-allowed}
-.boxes{display:flex;gap:6px;height:var(--u);align-items:center}
-.boxes i{display:block;width:17px;height:17px;border:2px solid var(--ink);border-radius:2px 4px 2px 3px;background:rgba(255,255,255,.18)}
-.boxes i:nth-child(3n){transform:rotate(1.6deg)} .boxes i:nth-child(3n+1){transform:rotate(-1.2deg)}
-.boxes i.on{background:repeating-linear-gradient(-58deg,var(--ink) 0 2px,transparent 2px 5px)}
-.boxes i.neg{border-color:var(--red)}
-.boxes i.neg.on{background:repeating-linear-gradient(-58deg,var(--red) 0 2px,transparent 2px 5px)}
-.boxes b{width:2px;height:24px;margin:0 3px;background:var(--ink);border-radius:2px;transform:rotate(2deg)}
-
-/* ===== PS / PA ===== */
-.vit{margin-bottom:var(--u)}
-.vt{font:700 1.3rem/var(--u) var(--hw)}
-.vt span{font:300 1.05rem/var(--u) var(--hw);margin-left:6px}
-.vv{display:flex;align-items:baseline;gap:8px;height:calc(var(--u)*2)}
-.cur{width:104px;height:68px;text-align:center;border:0;background:transparent;padding:0;font:400 4rem/68px var(--scrawl)}
-.cur:focus{outline:none;box-shadow:inset 0 -2px 0 var(--red)}
-.mx{font:400 2.7rem/68px var(--scrawl);color:var(--red)}
-.bar{position:relative;height:var(--u)}
-.bar::before{content:"";position:absolute;left:0;right:0;top:6px;bottom:6px;border:2px solid var(--ink);filter:url(#wob)}
-.bar i{position:absolute;left:4px;top:10px;bottom:10px;width:calc((100% - 8px)*var(--p,0));
-  background:repeating-linear-gradient(-58deg,currentColor 0 2px,transparent 2px 6px);transition:width .3s}
-.bar.ticks::after{content:"";position:absolute;left:3px;right:3px;bottom:0;height:5px;
-  background:repeating-linear-gradient(90deg,var(--ink) 0 1.5px,transparent 1.5px calc(100%/var(--mx,20)*5))}
-.ps .bar i{color:var(--red)} .pa .bar i{color:var(--ink)}
-.vb{display:flex;align-items:center;gap:7px;height:var(--u)}
-.vb .pbtn{width:auto;min-width:36px;padding:0 8px;font-size:1.05rem}
-.vf{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;height:var(--u);white-space:nowrap}
-.vf b{font:400 1.9rem/var(--u) var(--scrawl);color:var(--red)}
-.vf input{width:50px;text-align:center;border:0;border-bottom:2px solid var(--ink);background:transparent;padding:0;font:700 1.15rem/1.25 var(--hw)}
-.vf input:focus{outline:none;border-bottom-color:var(--red)}
-
-/* ===== prestígio ===== */
-.bigp{position:relative;display:inline-block;margin:6px 0 0 14px;padding:0 26px;height:96px;font:400 5.6rem/96px var(--scrawl);color:var(--red);transform:rotate(-3deg)}
-.bigp::before{border-color:var(--red);border-radius:50%/46%;border-width:3px;inset:-4px -8px}
-.exc{display:flex;align-items:center;gap:8px;height:68px;margin-top:var(--u)}
-.exc input{width:104px;height:68px;text-align:center;border:0;background:transparent;padding:0;font:400 3.6rem/68px var(--scrawl)}
-.exc input:focus{outline:none;box-shadow:inset 0 -2px 0 var(--red)}
-.exc .pbtn{width:auto;min-width:40px;padding:0 8px;font-size:1.05rem}
-.px .bar i{color:var(--ink)}
-.trow{position:relative;display:flex;align-items:baseline;gap:8px;height:var(--u);font:400 1.25rem/var(--u) var(--hw)}
-.trow .tp{font:700 1.25rem/var(--u) var(--hw);width:44px}
-.trow .td{flex:1;border-bottom:2px dotted rgba(21,20,26,.45);transform:translateY(-8px)}
-.trow .tv{font:400 2rem/var(--u) var(--scrawl);min-width:92px;text-align:right}
-.trow.got::before{content:"";position:absolute;left:-60px;top:2px;width:30px;height:28px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 28'%3E%3Cpath d='M3 15 L11 24 L27 3' fill='none' stroke='%23c0221b' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat}
-.trow.now::after{content:"";position:absolute;inset:2px -10px 0;border:2.5px solid var(--red);border-radius:50%/60%;filter:url(#wob);pointer-events:none}
-
-/* ===== fichas (índice do caderno) ===== */
-.ficha{position:relative;display:flex;align-items:center;gap:12px;height:calc(var(--u)*2)}
-.fopen{display:block;flex:1;min-width:0;padding:0;border:0;background:none;text-align:left;cursor:pointer}
-.fn{display:block;font:400 2.2rem/var(--u) var(--scrawl);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fs{display:block;font:400 1.05rem/var(--u) var(--hw);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fs b{font:400 1.55rem/1 var(--scrawl);color:var(--red);margin-right:6px}
-.fs i{font-style:normal;opacity:.45}
-.fopen:hover .fn{color:var(--red)}
-.fp{flex:0 0 auto;min-width:46px;text-align:center;font:400 2rem/1 var(--scrawl);color:var(--red);padding:2px 8px;position:relative}
-.fp::before{content:"";position:absolute;inset:0;border:2px solid var(--red);border-radius:50%/60%;filter:url(#wob)}
-.fact{display:flex;gap:12px;flex:0 0 auto}
-.lnk{padding:0;border:0;background:none;cursor:pointer;font:400 1.5rem/1 var(--scrawl);color:var(--red);text-decoration:underline}
-.ficha.on::before{content:"";position:absolute;left:-64px;top:20px;width:30px;height:26px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 26'%3E%3Cpath d='M2 13H26M17 4L27 13L17 22' fill='none' stroke='%23c0221b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat}
-.ficha.on .fn{color:var(--red)}
-.row-b{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;min-height:var(--u)}
-.row-b .pbtn{width:auto;min-width:0;padding:0 12px;font-size:1.05rem}
-.acc-status{font:400 1.05rem/var(--u) var(--hw);overflow-wrap:anywhere}
-.msg{margin:0;min-height:var(--u);font:400 1.5rem/var(--u) var(--scrawl);color:var(--red)}
-.msg.err{text-decoration:underline wavy var(--ink);text-decoration-thickness:1px;text-underline-offset:5px}
-
-/* ===== marcadores laterais ===== */
-.side{display:flex;flex-direction:column}
-.tabs{display:flex;flex-direction:column;gap:12px;padding-top:54px;margin-left:10px}
-.tab{position:relative;width:98px;min-height:58px;padding:5px 8px 5px 14px;text-align:left;cursor:pointer;border:0;
-  background:#d6d3c9 repeating-linear-gradient(0deg,rgba(0,0,0,.025) 0 1px,transparent 1px 4px);border-radius:0 9px 9px 0;
-  box-shadow:2px 3px 5px rgba(0,0,0,.45);transition:transform .2s,background .2s}
-.tab::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  background:linear-gradient(100deg,rgba(255,255,255,.35),transparent 30%,rgba(0,0,0,.08))}
-.tab:nth-child(odd){transform:rotate(.7deg)} .tab:nth-child(even){transform:rotate(-.6deg)}
-.tab .tl{display:block;font:700 1.02rem/1.15 var(--hw)}
-.tab .tp{display:block;font:400 1.35rem/1 var(--scrawl);color:var(--red)}
-.tab:hover{background-color:#e4e1d8}
-.tab[aria-selected=true]{width:110px;background-color:#f1efe9;transform:rotate(0);box-shadow:3px 3px 6px rgba(0,0,0,.5),inset 5px 0 0 var(--red)}
-.saved{margin:14px 0 0 14px;height:1.8rem;font:400 1.6rem/1 var(--scrawl);color:#e6dccb;opacity:0;transition:opacity .4s}
-.saved.on{opacity:1}
-
-/* ===== objetos na mesa ===== */
-.desk-items{position:relative;max-width:1120px;height:170px;margin:30px auto 0;pointer-events:none}
-.it{position:absolute;filter:drop-shadow(3px 6px 5px rgba(0,0,0,.6))}
-.it.pencil{left:4%;top:26px;width:310px;transform:rotate(-4deg)}
-.it.pen1{left:36%;top:78px;width:270px;transform:rotate(2.5deg)}
-.it.pen2{right:5%;top:12px;width:262px;transform:rotate(-9deg)}
-.it.eraser{left:66%;top:96px;width:86px;transform:rotate(14deg)}
-
-/* ===== virar a página ===== */
-@keyframes turnF{from{transform:rotateY(-96deg);filter:brightness(.6)}to{transform:rotateY(0);filter:none}}
-@keyframes turnB{from{transform:rotateY(96deg);filter:brightness(.6)}to{transform:rotateY(0);filter:none}}
-.page.right.flipF{transform-origin:left center;animation:turnF .46s cubic-bezier(.3,.7,.2,1)}
-.page.left.flipB{transform-origin:right center;animation:turnB .46s cubic-bezier(.3,.7,.2,1)}
-
-/* ===== telas menores ===== */
-@media(max-width:1120px){
-  .shell{grid-template-columns:minmax(0,1fr)}
-  .side{order:-1}
-  .tabs{flex-direction:row;overflow-x:auto;padding:0;margin:0 0 0 4px;gap:6px}
-  .tab{flex:0 0 auto;width:auto;min-width:92px;min-height:0;border-radius:9px 9px 0 0;transform:none!important;box-shadow:0 -2px 5px rgba(0,0,0,.35)}
-  .tab[aria-selected=true]{width:auto;box-shadow:0 -2px 5px rgba(0,0,0,.35),inset 0 4px 0 var(--red)}
-  .saved{margin:4px 8px 6px;height:1.4rem;text-align:right}
-  .book{box-shadow:3px 3px 0 #cfccc1,6px 6px 0 #aaa79c,0 24px 40px rgba(0,0,0,.6)}
-}
-@media(max-width:820px){
-  .spread{grid-template-columns:1fr}
-  .gutter{display:none}
-  .desk-items{display:none}
-  .page{min-height:620px;padding:68px 18px 52px 70px;transform:none!important;
-    background:linear-gradient(90deg,transparent 46px,rgba(192,34,27,.78) 46px 48px,transparent 48px),repeating-linear-gradient(to bottom,transparent 0 33px,var(--rule) 33px 34px),var(--paper)}
-  .page.left{box-shadow:inset 0 0 60px rgba(70,55,30,.16)} .page.right{box-shadow:inset 0 0 60px rgba(70,55,30,.16)}
-  .trow.got::before{left:-52px}
-  .ficha.on::before{left:-54px}
-  .postit{right:12px}
-}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media print{
-  body{background:#fff}
-  .side,.gutter,.pbtn,.rm,.ear,.lnk,.desk-items{display:none!important}
-  .shell{display:block}
-  .book{box-shadow:none}
-  .spread[hidden]{display:grid!important}
-  .spread[data-i="5"]{display:none!important}
-  .spread{break-after:page;page-break-after:always}
-}
-</style>
-</head>
-<body>
-
-<!-- filtros de tremida e rabiscos de caneta reutilizáveis -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <filter id="wob" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter>
-    <filter id="wob2" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
-    <filter id="rough" x="-2%" y="-10%" width="104%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2"/></filter>
-    <symbol id="s-loops" viewBox="0 0 140 44"><path d="M4 32C14 6 30 6 26 24C22 40 8 34 18 18C28 4 52 8 46 26C42 38 30 34 38 20C46 8 66 12 64 26C62 38 52 34 58 22C64 12 84 14 82 26C80 36 72 34 76 24C80 16 98 18 96 28C95 34 88 33 92 27L136 25"/></symbol>
-    <symbol id="s-hatch" viewBox="0 0 140 44"><path d="M8 40L22 5M20 41L35 6M33 40L46 4M45 41L60 6M58 40L71 5M70 41L85 6M83 40L96 5M95 41L110 6"/></symbol>
-    <symbol id="s-circle" viewBox="0 0 140 44"><path d="M70 6C30 3 6 17 12 31C20 44 100 44 126 28C142 16 102 2 56 9C24 14 14 30 40 37C72 44 118 34 112 20"/></symbol>
-    <symbol id="s-zig" viewBox="0 0 140 44"><path d="M4 26L16 10L28 37L40 8L52 38L64 10L76 36L88 10L100 37L112 12L124 34L136 20"/></symbol>
-    <symbol id="s-strike" viewBox="0 0 140 44"><path d="M6 12L134 7M4 19L136 15M7 26L133 22M5 33L135 29M8 40L132 36"/></symbol>
-  </defs>
-</svg>
-
-<div class="desk">
-  <h1 class="sr">Ficha de personagem</h1>
-  <div class="shell">
-
-    <div class="book" id="book">
-      <div class="gutter" aria-hidden="true"></div>
-
-      <!-- páginas 1 e 2: quem é -->
-      <section class="spread" data-i="0" aria-label="Quem é, páginas 1 e 2">
-        <div class="page left">
-          <h2 class="hd">Ficha de personagem</h2>
-          <div class="fld"><label for="nome">Nome:</label><input class="in big" id="nome" autocomplete="off" placeholder="como chamam ele"></div>
-          <div class="fld"><label for="estereotipo">Estereótipo (classe):</label><input class="in" id="estereotipo" autocomplete="off"></div>
-          <button class="photo" id="photo" type="button" aria-label="Escolher foto ou desenho do personagem"><div class="ph" id="ph">foto<br>3x4</div></button>
-          <button class="rm" id="rmFoto" type="button">tirar a foto</button>
-          <input type="file" id="fotoIn" accept="image/*" hidden>
-          <svg class="scr" style="right:36px;top:18px;width:100px;transform:rotate(7deg)"><use href="#s-loops"/></svg>
-          <svg class="scr r" style="right:44px;bottom:84px;width:96px;transform:rotate(-8deg)"><use href="#s-hatch"/></svg>
-          <i class="smudge" style="left:96px;bottom:60px;width:130px;height:44px;transform:rotate(-8deg)"></i>
-          <span class="pn">1</span>
-        </div>
-        <div class="page right">
-          <h2 class="hd">Aparência</h2>
-          <textarea id="aparencia" data-rows="16" placeholder="cabelo, roupa, cicatriz, jeito de andar…"></textarea>
-          <svg class="scr" style="right:70px;bottom:58px;width:120px;transform:rotate(-4deg)"><use href="#s-loops"/></svg>
-          <i class="ring" style="right:-46px;top:300px"></i>
-          <i class="ear"></i><span class="pn">2</span>
-        </div>
-      </section>
-
-      <!-- páginas 3 e 4: atributos, PS e PA -->
-      <section class="spread" data-i="1" aria-label="Atributos, páginas 3 e 4" hidden>
-        <div class="page left">
-          <h2 class="hd">Atributos</h2>
-          <div class="postit" aria-live="polite"><small>PP sobrando</small><div class="n" id="ppRest">4</div><label>de <input type="number" id="ppTotal" min="0" aria-label="PP totais"></label></div>
-          <div id="attrs"></div>
-          <div class="cola" style="margin-top:var(--u)">PP = Pontos de Prestígio</div>
-          <div class="cola">atributo negativo (até −2) devolve PP</div>
-          <div class="cola">PS = 20 + (Porrada × 3)</div>
-          <div class="cola">PA = 10 + (Aura × 3)</div>
-          <svg class="scr r" style="right:40px;bottom:50px;width:112px;transform:rotate(-5deg)"><use href="#s-zig"/></svg>
-          <span class="pn">3</span>
-        </div>
-        <div class="page right">
-          <h2 class="hd">Vida e aura</h2>
-          <div class="vit ps">
-            <div class="vt">PS <span>Pontos de Saúde</span></div>
-            <div class="vv"><input class="cur" id="psCur" type="number" aria-label="PS atual"><span class="mx">/ <span id="psMax">20</span></span></div>
-            <div class="bar ticks" id="psBar"><i></i></div>
-            <div class="vb" data-vital="ps"><button class="pbtn" type="button" data-s="-5">−5</button><button class="pbtn" type="button" data-s="-1">−1</button><button class="pbtn" type="button" data-s="1">+1</button><button class="pbtn" type="button" data-s="5">+5</button><button class="pbtn" type="button" data-s="full">cheio</button></div>
-            <div class="vf">20 + (Porrada <b id="psA">0</b> × 3) + bônus <input type="number" id="psBonus" aria-label="Bônus de PS"></div>
-          </div>
-          <div class="vit pa">
-            <div class="vt">PA <span>Pontos de Aura</span></div>
-            <div class="vv"><input class="cur" id="paCur" type="number" aria-label="PA atual"><span class="mx">/ <span id="paMax">10</span></span></div>
-            <div class="bar ticks" id="paBar"><i></i></div>
-            <div class="vb" data-vital="pa"><button class="pbtn" type="button" data-s="-5">−5</button><button class="pbtn" type="button" data-s="-1">−1</button><button class="pbtn" type="button" data-s="1">+1</button><button class="pbtn" type="button" data-s="5">+5</button><button class="pbtn" type="button" data-s="full">cheio</button></div>
-            <div class="vf">10 + (Aura <b id="paA">0</b> × 3) + bônus <input type="number" id="paBonus" aria-label="Bônus de PA"></div>
-          </div>
-          <div class="cola">máximo subiu? o atual fica onde está</div>
-          <div class="cola">só cai se passar do máximo</div>
-          <svg class="scr" style="right:44px;top:20px;width:96px;transform:rotate(8deg)"><use href="#s-loops"/></svg>
-          <i class="smudge" style="right:60px;bottom:90px;width:120px;height:40px;transform:rotate(10deg)"></i>
-          <i class="ear"></i><span class="pn">4</span>
-        </div>
-      </section>
-
-      <!-- páginas 5 e 6: prestígio -->
-      <section class="spread" data-i="2" aria-label="Prestígio, páginas 5 e 6" hidden>
-        <div class="page left px">
-          <h2 class="hd">Prestígio</h2>
-          <div style="height:var(--u)"></div>
-          <div class="pen bigp rd" id="pNum">P0</div>
-          <div class="exc"><span class="cola" style="line-height:68px">EXC</span><input id="exc" type="number" min="0" aria-label="EXC, experiência de combate">
-            <button class="pbtn" type="button" data-e="-1">−1</button><button class="pbtn" type="button" data-e="1">+1</button><button class="pbtn" type="button" data-e="5">+5</button><button class="pbtn" type="button" data-e="10">+10</button></div>
-          <div class="bar" id="pBar" style="margin-top:var(--u)"><i></i></div>
-          <div class="cola" id="faltam" style="margin-top:0"></div>
-          <div class="cola" style="margin-top:var(--u)">EXC = experiência de combate</div>
-          <div class="cola">nível = prestígio</div>
-          <svg class="scr r" style="right:50px;top:30px;width:120px;transform:rotate(6deg)"><use href="#s-circle"/></svg>
-          <i class="smudge" style="left:110px;bottom:70px;width:140px;height:44px;transform:rotate(-6deg)"></i>
-          <span class="pn">5</span>
-        </div>
-        <div class="page right">
-          <h2 class="hd">Tabela de prestígio</h2>
-          <div id="tab"></div>
-          <svg class="scr" style="right:56px;bottom:64px;width:100px;transform:rotate(-6deg)"><use href="#s-strike"/></svg>
-          <i class="ear"></i><span class="pn">6</span>
-        </div>
-      </section>
-
-      <!-- páginas 7 e 8: história -->
-      <section class="spread" data-i="3" aria-label="História, páginas 7 e 8" hidden>
-        <div class="page left">
-          <h2 class="hd">Backstory</h2>
-          <textarea id="backstory" data-rows="17" placeholder="de onde veio, o que viveu, o que aprontou…"></textarea>
-          <svg class="scr" style="right:40px;top:18px;width:96px;transform:rotate(-7deg)"><use href="#s-zig"/></svg>
-          <span class="pn">7</span>
-        </div>
-        <div class="page right">
-          <h2 class="hd">Objetivos</h2>
-          <textarea id="objetivos" data-rows="17" placeholder="o que ele quer, a curto e a longo prazo…"></textarea>
-          <svg class="scr r" style="right:56px;bottom:62px;width:104px;transform:rotate(-5deg)"><use href="#s-hatch"/></svg>
-          <i class="ring" style="right:-60px;top:140px"></i>
-          <i class="ear"></i><span class="pn">8</span>
-        </div>
-      </section>
-
-      <!-- páginas 9 e 10: afiliações -->
-      <section class="spread" data-i="4" aria-label="Afiliações, páginas 9 e 10" hidden>
-        <div class="page left">
-          <h2 class="hd">Afiliações</h2>
-          <textarea id="afiliacoes" data-rows="17" placeholder="turmas, grupos, famílias, contatos…"></textarea>
-          <i class="smudge" style="right:50px;bottom:70px;width:140px;height:44px;transform:rotate(7deg)"></i>
-          <span class="pn">9</span>
-        </div>
-        <div class="page right">
-          <svg class="scr" style="left:96px;top:46px;width:230px;transform:rotate(-5deg)"><use href="#s-loops"/></svg>
-          <svg class="scr r" style="right:60px;top:96px;width:170px;transform:rotate(8deg)"><use href="#s-circle"/></svg>
-          <svg class="scr" style="left:110px;top:240px;width:150px;transform:rotate(3deg)"><use href="#s-hatch"/></svg>
-          <svg class="scr" style="right:70px;top:380px;width:190px;transform:rotate(-4deg)"><use href="#s-zig"/></svg>
-          <svg class="scr r" style="left:120px;top:470px;width:120px;transform:rotate(-6deg)"><use href="#s-strike"/></svg>
-          <svg class="scr" style="right:90px;bottom:90px;width:150px;transform:rotate(5deg)"><use href="#s-loops"/></svg>
-          <i class="smudge" style="left:150px;top:150px;width:170px;height:54px;transform:rotate(-6deg)"></i>
-          <i class="ring" style="left:60px;bottom:30px"></i>
-          <i class="ear"></i><span class="pn">10</span>
-        </div>
-      </section>
-
-      <!-- páginas 11 e 12: fichas e guardar -->
-      <section class="spread" data-i="5" aria-label="Fichas e guardar, páginas 11 e 12" hidden>
-        <div class="page left">
-          <h2 class="hd">Minhas fichas</h2>
-          <div id="fichas"></div>
-          <div class="row-b" style="margin-top:var(--u)"><button class="pbtn" id="bNova" type="button">+ nova ficha</button></div>
-          <div class="cola" id="listNote"></div>
-          <svg class="scr" style="right:40px;bottom:54px;width:104px;transform:rotate(-5deg)"><use href="#s-loops"/></svg>
-          <span class="pn">11</span>
-        </div>
-        <div class="page right">
-          <h2 class="hd">Guardar</h2>
-          <div class="cola">Nuvem</div>
-          <div class="acc-status" id="accountStatus" role="status" aria-live="polite">Carregando autenticação…</div>
-          <div id="accountControls">
-            <div class="fld tight"><label for="accountEmail">e-mail:</label><input class="in" id="accountEmail" type="email" autocomplete="email"></div>
-            <div class="fld tight"><label for="accountPassword">senha:</label><input class="in" id="accountPassword" type="password" autocomplete="current-password" placeholder="mín. 6 caracteres"></div>
-            <div class="row-b"><button class="pbtn" id="loginEmail" type="button">entrar</button><button class="pbtn" id="registerEmail" type="button">criar conta</button><button class="pbtn" id="loginGoogle" type="button">entrar com Google</button></div>
-          </div>
-          <div class="row-b" id="accountOut" hidden><button class="pbtn" id="syncNow" type="button">sincronizar agora</button><button class="pbtn" id="logoutAccount" type="button">sair</button></div>
-          <p class="msg" id="accountMessage" aria-live="polite">As fichas ficam salvas neste navegador. Entre para levar para outros aparelhos.</p>
-          <div class="cola" style="margin-top:var(--u)">Arquivo</div>
-          <div class="row-b"><button class="pbtn" id="bExp" type="button">exportar esta</button><button class="pbtn" id="bExpAll" type="button">exportar todas</button><button class="pbtn" id="bImp" type="button">importar</button><button class="pbtn" id="bPrint" type="button">imprimir</button></div>
-          <p class="msg" id="fileMsg" aria-live="polite"></p>
-          <input type="file" id="impIn" accept="application/json,.json" hidden>
-          <svg class="scr r" style="right:50px;bottom:70px;width:110px;transform:rotate(6deg)"><use href="#s-hatch"/></svg>
-          <i class="ear"></i><span class="pn">12</span>
-        </div>
-      </section>
-    </div>
-
-    <div class="side">
-      <nav class="tabs" id="tabs" role="tablist" aria-label="Seções da ficha"></nav>
-      <div class="saved" id="saved" aria-live="polite">salvo</div>
-    </div>
-  </div>
-
-  <!-- coisas jogadas na mesa -->
-  <div class="desk-items" aria-hidden="true">
-    <svg class="it pencil" viewBox="0 0 320 34">
-      <defs><linearGradient id="gBlk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a4a52"/><stop offset=".45" stop-color="#1c1c21"/><stop offset="1" stop-color="#050506"/></linearGradient>
-      <linearGradient id="gMet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e5e5e5"/><stop offset=".5" stop-color="#8d8d8d"/><stop offset="1" stop-color="#5d5d5d"/></linearGradient></defs>
-      <path d="M0 17L46 3V31Z" fill="#d6c196"/><path d="M0 17L14 12.3V21.7Z" fill="#202024"/>
-      <rect x="46" y="3" width="212" height="28" fill="url(#gBlk)"/><rect x="46" y="14.5" width="212" height="3" fill="#c0221b"/>
-      <rect x="46" y="7" width="212" height="2.5" fill="#fff" opacity=".13"/>
-      <rect x="258" y="3" width="26" height="28" fill="url(#gMet)"/><path d="M264 3V31M270 3V31M276 3V31" stroke="#444" stroke-width="1" opacity=".5"/>
-      <rect x="284" y="3" width="32" height="28" rx="7" fill="#c0221b"/><rect x="284" y="7" width="32" height="3" fill="#fff" opacity=".2"/>
-    </svg>
-    <svg class="it pen1" viewBox="0 0 280 26">
-      <defs><linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2463d"/><stop offset=".5" stop-color="#b3201a"/><stop offset="1" stop-color="#6d0f0b"/></linearGradient></defs>
-      <path d="M0 13L22 7V19Z" fill="#9a9a9a"/><path d="M0 13L6 11.2V14.8Z" fill="#c0221b"/>
-      <rect x="22" y="3" width="200" height="20" rx="3" fill="url(#gRed)"/><rect x="22" y="6" width="200" height="2.2" fill="#fff" opacity=".18"/>
-      <rect x="222" y="2" width="54" height="22" rx="5" fill="url(#gBlk)"/><rect x="226" y="2" width="44" height="3" fill="#aaa" opacity=".55"/>
-      <rect x="226" y="-1" width="3" height="28" fill="#8d8d8d" opacity=".001"/>
-    </svg>
-    <svg class="it pen2" viewBox="0 0 280 26">
-      <path d="M0 13L22 7V19Z" fill="#9a9a9a"/><path d="M0 13L6 11.2V14.8Z" fill="#15141a"/>
-      <rect x="22" y="3" width="200" height="20" rx="3" fill="url(#gBlk)"/><rect x="22" y="6" width="200" height="2.2" fill="#fff" opacity=".14"/>
-      <rect x="22" y="12" width="200" height="2.4" fill="#c0221b" opacity=".85"/>
-      <rect x="222" y="2" width="54" height="22" rx="5" fill="url(#gBlk)"/><rect x="226" y="2" width="44" height="3" fill="#aaa" opacity=".5"/>
-    </svg>
-    <svg class="it eraser" viewBox="0 0 90 44">
-      <rect x="2" y="2" width="86" height="40" rx="5" fill="#e9e6dc"/><rect x="2" y="2" width="86" height="12" rx="5" fill="#fff" opacity=".35"/>
-      <rect x="26" y="2" width="38" height="40" fill="#15141a"/><rect x="26" y="19" width="38" height="5" fill="#c0221b"/>
-      <rect x="2" y="30" width="86" height="12" rx="5" fill="#000" opacity=".1"/>
-    </svg>
-  </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-import {
-  getFirestore,
-  collection,
-  doc,
-  getDocs,
-  setDoc,
-  deleteDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
-
-/* ============ Firebase ============ */
-const firebaseConfig = {
-  apiKey: "AIzaSyBLqmf8347Nkvp1UwFHzcVbkKAJ3hvNf_Y",
-  authDomain: "putaria-explicita-rpg.firebaseapp.com",
-  projectId: "putaria-explicita-rpg",
-  appId: "1:571923754569:web:b0642c8decd9d3e8bf1998"
-};
-const firebasePronto = Object.values(firebaseConfig).every(v => v && !v.startsWith("COLE_AQUI_"));
-const firebaseApp = firebasePronto ? initializeApp(firebaseConfig) : null;
-const auth = firebaseApp ? getAuth(firebaseApp) : null;
-const db = firebaseApp ? getFirestore(firebaseApp) : null;
-const googleProvider = new GoogleAuthProvider();
-const OWNER_KEY = 'ficha-rpg-caderno-cloud-owner-v1';
-
-/* ============ utilidades ============ */
-const $=s=>document.querySelector(s);
-const int=v=>{const n=parseInt(v,10);return isNaN(n)?0:n;};
-const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const slug=s=>(s||'').trim().toLowerCase().replace(/[^a-z0-9à-ú]+/gi,'-').replace(/^-|-$/g,'')||'personagem';
-const newId=()=>'f'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-
-/* ============ dados da ficha ============ */
-const ATTRS=[['porrada','Porrada'],['molejo','Molejo'],['cabeca','Cabeça'],['resenha','Resenha'],['aura','Aura']];
-const ATTR_MIN=-2; // atributo pode ficar negativo até −2; cada ponto negativo devolve 1 PP
-const THR=[0,10,25,45,70,100,135,175,220,270,325]; // P1=10, P2=25, P3=45 ... P10=325 (cada degrau cresce 5 a mais)
-const PAGES=[['Quem é','1-2'],['Atributos','3-4'],['Prestígio','5-6'],['História','7-8'],['Afiliações','9-10'],['Fichas','11-12']];
-const TXT=['nome','estereotipo','aparencia','backstory','objetivos','afiliacoes'];
-const DEF=()=>({nome:'',estereotipo:'',aparencia:'',backstory:'',objetivos:'',afiliacoes:'',
-  attrs:{porrada:0,molejo:0,cabeca:0,resenha:0,aura:0},ppTotal:4,exc:0,psBonus:0,paBonus:0,psAtual:20,paAtual:10,foto:''});
-function merge(d,s){
-  const o={...d,...s,attrs:{...d.attrs,...(s.attrs||{})}};
-  for(const k of ['ppTotal','exc','psBonus','paBonus']) o[k]=int(o[k]);
-  for(const k in o.attrs) o.attrs[k]=Math.max(ATTR_MIN,int(o.attrs[k]));
-  for(const k of TXT) o[k]=typeof o[k]==='string'?o[k]:'';
-  if(typeof o.foto!=='string') o.foto='';
-  o.exc=Math.max(0,o.exc);
-  const mps=Math.max(0,20+o.attrs.porrada*3+o.psBonus), mpa=Math.max(0,10+o.attrs.aura*3+o.paBonus);
-  // fichas antigas guardavam o dano; converte para o valor atual
-  const aps=typeof s.psAtual==='number'?s.psAtual:mps-Math.max(0,int(s.psDano));
-  const apa=typeof s.paAtual==='number'?s.paAtual:mpa-Math.max(0,int(s.paDano));
-  o.psAtual=clamp(Math.round(aps),0,mps); o.paAtual=clamp(Math.round(apa),0,mpa);
-  delete o.psDano; delete o.paDano;
-  return o;
-}
-const nivel=exc=>{let n=0;for(let i=1;i<=10;i++) if(exc>=THR[i]) n=i;return n;};
-
-/* ============ biblioteca de fichas (várias fichas, uma ativa) ============ */
-const LKEY='ficha-rpg-caderno-v3', OLDKEY='ficha-rpg-caderno-v2';
-const dirty=new Set();            // fichas com alterações ainda não enviadas à nuvem
-function blankLib(){
-  const id=newId();
-  return {active:id,order:[id],sheets:{[id]:DEF()},u:{[id]:Date.now()},del:[]};
-}
-function loadLib(){
-  try{
-    const s=JSON.parse(localStorage.getItem(LKEY)||'null');
-    if(s&&s.sheets&&Array.isArray(s.order)){
-      const L={active:s.active,order:s.order.filter(id=>s.sheets[id]),sheets:{},u:s.u||{},del:Array.isArray(s.del)?s.del:[]};
-      for(const id of L.order) L.sheets[id]=merge(DEF(),s.sheets[id]);
-      if(L.order.length){ if(!L.sheets[L.active]) L.active=L.order[0]; return L; }
+  <style>
+    :root {
+      --paper: #f7f5ee;
+      --white: #fffef9;
+      --black: #202020;
+      --orange: #ed7825;
+      --grey: #66635d;
+      --line: rgba(32, 32, 32, .24);
     }
-  }catch(e){}
-  const L=blankLib();
-  try{ // traz a ficha única da versão anterior
-    const o=JSON.parse(localStorage.getItem(OLDKEY)||'null');
-    if(o) L.sheets[L.active]=merge(DEF(),o);
-  }catch(e){}
-  return L;
-}
-let lib=loadLib();
-let st=lib.sheets[lib.active];
-let tmr;
-function flash(txt='salvo'){
-  const el=$('#saved'); el.textContent=txt; el.classList.add('on');
-  clearTimeout(tmr); tmr=setTimeout(()=>el.classList.remove('on'),1200);
-}
-function persist(){
-  try{localStorage.setItem(LKEY,JSON.stringify(lib));return true;}
-  catch(e){flash('sem espaço!');return false;}
-}
-function save(){
-  lib.u[lib.active]=Date.now(); dirty.add(lib.active);
-  if(persist()) flash('salvo');
-  scheduleCloudSave();
-}
 
-/* ============ montar partes dinâmicas ============ */
-$('#attrs').innerHTML=ATTRS.map(([k,n])=>`
-  <div class="attr"><div class="ar1"><b class="an">${n}</b>
-    <div class="ctr"><button class="pbtn" type="button" data-k="${k}" data-d="-1" aria-label="Diminuir ${n}">−</button>
-    <span class="val" id="v-${k}" aria-live="polite">0</span>
-    <button class="pbtn" type="button" data-k="${k}" data-d="1" aria-label="Aumentar ${n}">+</button></div></div>
-    <div class="boxes" id="b-${k}" aria-hidden="true"></div></div>`).join('');
-$('#tab').innerHTML=THR.slice(1).map((v,i)=>`<div class="trow" id="t${i+1}"><span class="tp">P${i+1}</span><span class="td"></span><span class="tv">${v} EXC</span></div>`).join('');
-$('#tabs').innerHTML=PAGES.map((p,i)=>`<button class="tab" role="tab" type="button" data-i="${i}" aria-selected="false"><span class="tl">${p[0]}</span><span class="tp">p. ${p[1]}</span></button>`).join('');
-
-/* ============ atualizar tela ============ */
-const setVal=(el,v)=>{ if(document.activeElement!==el) el.value=v; };
-const maxes=()=>({ps:Math.max(0,20+st.attrs.porrada*3+st.psBonus), pa:Math.max(0,10+st.attrs.aura*3+st.paBonus)});
-const fmtN=v=>v<0?'−'+(-v):String(v);
-function sync(){
-  const A=st.attrs, gasto=Object.values(A).reduce((a,b)=>a+b,0), rest=st.ppTotal-gasto; // negativos somam de volta
-  for(const [k] of ATTRS){
-    const v=A[k], el=$('#v-'+k);
-    el.textContent=fmtN(v); el.classList.toggle('neg',v<0);
-    $('#b-'+k).innerHTML=[-2,-1].map(i=>`<i class="neg${v<=i?' on':''}"></i>`).join('')+'<b></b>'+
-      Array.from({length:10},(_,i)=>`<i class="${v>=i+1?'on':''}"></i>`).join('');
-  }
-  const pr=$('#ppRest'); pr.textContent=rest; pr.className='n'+(rest<0?' neg':'');
-  document.querySelectorAll('[data-d="1"]').forEach(b=>b.disabled=rest<=0);
-  document.querySelectorAll('[data-d="-1"]').forEach(b=>b.disabled=A[b.dataset.k]<=ATTR_MIN);
-  setVal($('#ppTotal'),st.ppTotal);
-
-  // PS e PA atuais ficam como estão; só caem se passarem do máximo
-  const M=maxes();
-  let fix=false;
-  if(st.psAtual>M.ps){st.psAtual=M.ps;fix=true;}
-  if(st.paAtual>M.pa){st.paAtual=M.pa;fix=true;}
-  if(fix){ lib.u[lib.active]=Date.now(); dirty.add(lib.active); persist(); scheduleCloudSave(); }
-  $('#psMax').textContent=M.ps; $('#paMax').textContent=M.pa;
-  $('#psA').textContent=fmtN(A.porrada); $('#paA').textContent=fmtN(A.aura);
-  setVal($('#psCur'),st.psAtual); setVal($('#paCur'),st.paAtual);
-  setVal($('#psBonus'),st.psBonus); setVal($('#paBonus'),st.paBonus);
-  $('#psBar').style.setProperty('--p',M.ps>0?st.psAtual/M.ps:0);
-  $('#paBar').style.setProperty('--p',M.pa>0?st.paAtual/M.pa:0);
-  $('#psBar').style.setProperty('--mx',Math.max(M.ps,1));
-  $('#paBar').style.setProperty('--mx',Math.max(M.pa,1));
-
-  const n=nivel(st.exc);
-  $('#pNum').textContent='P'+n; setVal($('#exc'),st.exc);
-  if(n<10){
-    const a=THR[n], b=THR[n+1];
-    $('#faltam').textContent=`faltam ${b-st.exc} EXC pro P${n+1}`;
-    $('#pBar').style.setProperty('--p',clamp((st.exc-a)/(b-a),0,1));
-  }else{ $('#faltam').textContent='prestígio máximo'; $('#pBar').style.setProperty('--p',1); }
-  for(let i=1;i<=10;i++){ $('#t'+i).className='trow'+(n>=i&&i<n?' got':'')+(n===i?' now':''); }
-
-  const ph=$('#ph');
-  if(st.foto){ph.style.backgroundImage=`url(${st.foto})`;ph.classList.add('has');ph.innerHTML='';}
-  else{ph.style.backgroundImage='';ph.classList.remove('has');ph.innerHTML='foto<br>3x4';}
-  $('#rmFoto').classList.toggle('on',!!st.foto);
-}
-
-/* ---- campos de texto (altura em múltiplos da linha do caderno) ---- */
-function autosize(ta){
-  const rows=int(ta.dataset.rows)||10;
-  ta.style.height='auto';
-  ta.style.height=Math.max(rows*34,Math.ceil(ta.scrollHeight/34)*34)+'px';
-}
-const areas=[...document.querySelectorAll('textarea')];
-function fillText(){ for(const id of TXT) $('#'+id).value=st[id]; areas.forEach(autosize); }
-for(const id of TXT){
-  const el=$('#'+id);
-  el.addEventListener('input',()=>{st[id]=el.value; if(el.tagName==='TEXTAREA') autosize(el); save();});
-}
-
-/* ---- atributos, vitais, EXC ---- */
-$('#attrs').addEventListener('click',e=>{
-  const b=e.target.closest('button[data-k]'); if(!b||b.disabled) return;
-  const d=int(b.dataset.d), rest=st.ppTotal-Object.values(st.attrs).reduce((a,c)=>a+c,0);
-  if(d>0&&rest<=0) return;
-  st.attrs[b.dataset.k]=Math.max(ATTR_MIN,st.attrs[b.dataset.k]+d); save(); sync();
-});
-$('#ppTotal').addEventListener('input',e=>{st.ppTotal=Math.max(0,int(e.target.value));save();sync();});
-$('#psBonus').addEventListener('input',e=>{st.psBonus=int(e.target.value);save();sync();});
-$('#paBonus').addEventListener('input',e=>{st.paBonus=int(e.target.value);save();sync();});
-$('#exc').addEventListener('input',e=>{st.exc=Math.max(0,int(e.target.value));save();sync();});
-document.querySelector('.exc').addEventListener('click',e=>{
-  const b=e.target.closest('button[data-e]'); if(!b) return;
-  st.exc=Math.max(0,st.exc+int(b.dataset.e)); save(); sync();
-});
-for(const v of ['ps','pa']){
-  const key=v+'Atual';
-  $('#'+v+'Cur').addEventListener('input',e=>{
-    st[key]=clamp(int(e.target.value),0,maxes()[v]); save(); sync();
-  });
-  $('#'+v+'Cur').addEventListener('blur',sync);
-  document.querySelector(`[data-vital="${v}"]`).addEventListener('click',e=>{
-    const b=e.target.closest('button[data-s]'); if(!b) return;
-    const max=maxes()[v];
-    st[key]=b.dataset.s==='full'?max:clamp(st[key]+int(b.dataset.s),0,max);
-    save(); sync();
-  });
-}
-
-/* ---- foto (reduzida para caber no armazenamento e na nuvem) ---- */
-$('#photo').onclick=()=>$('#fotoIn').click();
-$('#fotoIn').onchange=e=>{
-  const f=e.target.files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=()=>{const img=new Image();
-    img.onload=()=>{const m=360,s=Math.min(1,m/Math.max(img.width,img.height));
-      const c=document.createElement('canvas'); c.width=Math.round(img.width*s); c.height=Math.round(img.height*s);
-      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-      st.foto=c.toDataURL('image/jpeg',.68); save(); sync();};
-    img.src=r.result;};
-  r.readAsDataURL(f); e.target.value='';
-};
-$('#rmFoto').onclick=()=>{st.foto='';save();sync();};
-
-/* ============ páginas do caderno ============ */
-const spreads=[...document.querySelectorAll('.spread')], tabs=[...document.querySelectorAll('.tab')];
-let cur=-1;
-function show(i,animate=true){
-  i=clamp(i,0,spreads.length-1); if(i===cur) return;
-  const dir=cur<0?0:(i>cur?1:-1);
-  spreads.forEach((s,j)=>{s.hidden=j!==i;});
-  tabs.forEach((t,j)=>{t.setAttribute('aria-selected',j===i);t.tabIndex=j===i?0:-1;});
-  const sp=spreads[i];
-  sp.querySelectorAll('.page').forEach(p=>p.classList.remove('flipF','flipB'));
-  if(animate&&dir>0) sp.querySelector('.right').classList.add('flipF');
-  if(animate&&dir<0) sp.querySelector('.left').classList.add('flipB');
-  cur=i; areas.forEach(autosize);
-  if(i===5) renderList();
-  try{history.replaceState(null,'','#p'+(i+1));}catch(e){}
-}
-tabs.forEach(t=>t.addEventListener('click',()=>show(+t.dataset.i)));
-document.addEventListener('keydown',e=>{
-  if(e.target.matches('input,textarea')||e.ctrlKey||e.metaKey||e.altKey) return;
-  if(e.key==='ArrowRight') show(cur+1); else if(e.key==='ArrowLeft') show(cur-1);
-});
-addEventListener('resize',()=>areas.forEach(autosize));
-
-/* ============ lista de fichas (mostra a classe de cada uma) ============ */
-function renderList(){
-  $('#fichas').innerHTML=lib.order.map(id=>{
-    const s=lib.sheets[id], nome=s.nome.trim()||'sem nome', cls=s.estereotipo.trim();
-    return `<div class="ficha${id===lib.active?' on':''}" data-id="${esc(id)}">
-      <button class="fopen" type="button" data-act="open" aria-label="Abrir ${esc(nome)}"><span class="fn">${esc(nome)}</span><span class="fs"><b>classe:</b>${cls?esc(cls):'<i>sem classe</i>'}</span></button>
-      <span class="fp" title="Prestígio">P${nivel(s.exc)}</span>
-      <span class="fact"><button class="lnk" type="button" data-act="dup">copiar</button><button class="lnk" type="button" data-act="del">apagar</button></span></div>`;
-  }).join('');
-  const n=lib.order.length;
-  $('#listNote').textContent=n+(n===1?' ficha':' fichas')+' neste caderno';
-}
-function setActive(id){
-  lib.active=id; st=lib.sheets[id]; persist(); fillText(); sync(); renderList();
-}
-function addFicha(data,open=true){
-  const id=newId();
-  lib.sheets[id]=data?merge(DEF(),data):DEF(); lib.u[id]=Date.now(); lib.order.push(id); dirty.add(id);
-  if(open) setActive(id); else renderList();
-  persist(); scheduleCloudSave();
-  return id;
-}
-function dupFicha(id){
-  const id2=newId(), c=JSON.parse(JSON.stringify(lib.sheets[id]));
-  c.nome=(c.nome.trim()||'sem nome')+' (cópia)';
-  lib.sheets[id2]=c; lib.u[id2]=Date.now(); dirty.add(id2);
-  lib.order.splice(lib.order.indexOf(id)+1,0,id2);
-  persist(); renderList(); scheduleCloudSave(); flash('copiada');
-}
-function delFicha(id){
-  const nome=lib.sheets[id].nome.trim()||'sem nome';
-  if(!confirm(`Apagar a ficha "${nome}"? Isso não dá para desfazer (exporte antes se quiser guardar).`)) return;
-  const eraAtiva=id===lib.active;
-  lib.order=lib.order.filter(x=>x!==id); delete lib.sheets[id]; delete lib.u[id]; dirty.delete(id);
-  if(!lib.del.includes(id)) lib.del.push(id);
-  if(!lib.order.length){ const nid=newId(); lib.sheets[nid]=DEF(); lib.u[nid]=Date.now(); lib.order.push(nid); lib.active=nid; st=lib.sheets[nid]; fillText(); sync(); }
-  else if(eraAtiva){ lib.active=lib.order[0]; st=lib.sheets[lib.active]; fillText(); sync(); }
-  persist(); renderList(); flushDeletes();
-}
-$('#fichas').addEventListener('click',e=>{
-  const b=e.target.closest('button[data-act]'); if(!b) return;
-  const id=b.closest('.ficha').dataset.id;
-  if(b.dataset.act==='open'){ if(id!==lib.active) setActive(id); show(0); }
-  else if(b.dataset.act==='dup') dupFicha(id);
-  else if(b.dataset.act==='del') delFicha(id);
-});
-$('#bNova').onclick=()=>{ addFicha(null,true); show(0); };
-
-/* ============ exportar, importar, imprimir ============ */
-function download(name,obj){
-  const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name;
-  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-}
-function setMsg(el,text,error=false){ el.textContent=text; el.classList.toggle('err',!!error); }
-const fileMsg=$('#fileMsg');
-$('#bExp').onclick=()=>{ download('ficha-'+slug(st.nome)+'.json',st); setMsg(fileMsg,'Ficha exportada.'); };
-$('#bExpAll').onclick=()=>{
-  download('caderno-rpg-fichas.json',{formato:'caderno-rpg',fichas:lib.order.map(id=>lib.sheets[id])});
-  setMsg(fileMsg,lib.order.length+(lib.order.length===1?' ficha exportada.':' fichas exportadas.'));
-};
-$('#bImp').onclick=()=>$('#impIn').click();
-$('#impIn').onchange=e=>{
-  const f=e.target.files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=()=>{
-    try{
-      const j=JSON.parse(r.result);
-      const list=Array.isArray(j)?j:(j&&Array.isArray(j.fichas)?j.fichas:[j]);
-      const ok=list.filter(x=>x&&typeof x==='object'&&!Array.isArray(x)&&(x.attrs||TXT.some(k=>k in x)));
-      if(!ok.length) throw new Error('vazio');
-      let last=null; for(const x of ok) last=addFicha(x,false);
-      setActive(last);
-      setMsg(fileMsg,ok.length===1?'Ficha importada como nova ficha.':ok.length+' fichas importadas.');
-    }catch(err){ setMsg(fileMsg,'Esse arquivo não parece ser uma ficha válida.',true); }
-  };
-  r.readAsText(f); e.target.value='';
-};
-$('#bPrint').onclick=()=>window.print();
-
-/* ============ conta e nuvem ============ */
-let cloudUser=null, cloudLoaded=false, cloudTimer=null, chain=Promise.resolve();
-const accountStatus=$('#accountStatus'), accountMessage=$('#accountMessage');
-const emailInput=$('#accountEmail'), passwordInput=$('#accountPassword');
-const setAccountMessage=(m,err=false)=>setMsg(accountMessage,m,err);
-
-function firebaseErrorMessage(error){
-  const code=error?.code||'';
-  const messages={
-    'auth/invalid-email':'Esse e-mail não parece válido.',
-    'auth/missing-password':'Digite sua senha.',
-    'auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.',
-    'auth/email-already-in-use':'Já existe uma conta com esse e-mail. Tente entrar.',
-    'auth/invalid-credential':'E-mail ou senha incorretos.',
-    'auth/user-not-found':'Conta não encontrada. Você pode criar uma conta.',
-    'auth/wrong-password':'Senha incorreta.',
-    'auth/popup-closed-by-user':'A janela do Google foi fechada antes de concluir o login.',
-    'auth/popup-blocked':'O navegador bloqueou a janela de login. Permita pop-ups para este site.',
-    'auth/unauthorized-domain':'Este domínio não está autorizado no Firebase Authentication.',
-    'permission-denied':'O Firebase recusou o acesso. Confira as regras do Firestore.',
-    'firestore/permission-denied':'O Firebase recusou o acesso. Confira as regras do Firestore.',
-    'resource-exhausted':'O limite de uso do Firebase pode ter sido atingido.'
-  };
-  return messages[code]||(error?.message&&!code?error.message:'')||'Ocorreu um erro inesperado.';
-}
-function setSignedInUI(user){
-  const on=!!user;
-  $('#accountControls').hidden=on;
-  $('#accountOut').hidden=!on;
-  accountStatus.textContent=on?`Conectado: ${user.email||user.displayName||'conta Google'}`:(firebasePronto?'Não conectado':'Firebase ainda não configurado');
-}
-const sheetDoc=(uid,id)=>doc(db,'users',uid,'sheets',id);
-
-function scheduleCloudSave(){
-  if(!cloudUser||!cloudLoaded||!db) return;
-  clearTimeout(cloudTimer);
-  cloudTimer=setTimeout(()=>{ const u=cloudUser; chain=chain.then(()=>pushDirty(u)).catch(()=>{}); },700);
-}
-async function flushDeletes(){
-  if(!cloudUser||!cloudLoaded||!db) return;
-  for(const id of [...lib.del]){
-    try{ await deleteDoc(sheetDoc(cloudUser.uid,id)); lib.del=lib.del.filter(x=>x!==id); persist(); }
-    catch(e){ console.error('Erro ao apagar na nuvem:',e); break; }
-  }
-}
-async function pushDirty(user){
-  if(!cloudUser||cloudUser.uid!==user.uid||!cloudLoaded) return;
-  for(const id of [...dirty]){
-    const sh=lib.sheets[id]; if(!sh){dirty.delete(id);continue;}
-    // Firestore limita cada documento a 1 MiB; a foto já é comprimida antes de salvar.
-    if(new Blob([JSON.stringify(sh)]).size>900000){
-      setAccountMessage(`A ficha "${sh.nome.trim()||'sem nome'}" está grande demais para a nuvem. Reduza ou remova a foto.`,true);
-      dirty.delete(id); continue;
+    * {
+      box-sizing: border-box;
     }
-    try{
-      await setDoc(sheetDoc(user.uid,id),{sheet:sh,u:lib.u[id]||Date.now(),updatedAt:serverTimestamp()});
-      dirty.delete(id);
-    }catch(error){
-      console.error('Erro ao salvar a ficha no Firebase:',error);
-      setAccountMessage('Não foi possível sincronizar: '+firebaseErrorMessage(error),true);
-      return;
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
     }
-  }
-  await flushDeletes();
-  if(!dirty.size&&cloudUser?.uid===user.uid) setAccountMessage('Fichas sincronizadas com a nuvem.');
-}
-function resetLib(){
-  lib=blankLib(); st=lib.sheets[lib.active]; dirty.clear();
-  persist(); fillText(); sync(); renderList();
-}
-async function cloudMerge(user){
-  const snap=await getDocs(collection(db,'users',user.uid,'sheets'));
-  const remote={};
-  snap.forEach(d=>{
-    const x=d.data();
-    if(x&&x.sheet) remote[d.id]={sheet:x.sheet,u:x.u||(x.updatedAt&&x.updatedAt.toMillis?x.updatedAt.toMillis():0)};
-  });
-  // apagadas aqui enquanto estava sem conexão
-  for(const id of [...lib.del]){
-    if(remote[id]){ await deleteDoc(sheetDoc(user.uid,id)); delete remote[id]; }
-    lib.del=lib.del.filter(x=>x!==id);
-  }
-  const remoteIds=Object.keys(remote);
-  // fichas locais em branco não valem a pena quando a nuvem já tem fichas
-  if(remoteIds.length){
-    const blank=JSON.stringify(DEF());
-    for(const id of [...lib.order]){
-      if(!remote[id]&&JSON.stringify(lib.sheets[id])===blank){
-        lib.order=lib.order.filter(x=>x!==id); delete lib.sheets[id]; delete lib.u[id]; dirty.delete(id);
+
+    body {
+      margin: 0;
+      background: #d9d6ce;
+      color: var(--black);
+      font-family: "Special Elite", monospace;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .page {
+      position: relative;
+      width: min(1050px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 26px 48px 32px;
+      overflow: hidden;
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(rgba(0, 0, 0, .12) .55px, transparent .7px);
+      background-size: 5px 5px;
+      box-shadow: 0 0 24px rgba(0, 0, 0, .16);
+    }
+
+    .top-line {
+      height: 7px;
+      background: var(--black);
+      margin: -26px -48px 24px;
+    }
+
+    .top-line span {
+      display: block;
+      width: 23%;
+      height: 7px;
+      background: var(--orange);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 2px solid var(--black);
+      padding-bottom: 15px;
+    }
+
+    .brand {
+      font-family: "Permanent Marker", sans-serif;
+      font-size: 20px;
+      line-height: 1.2;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      color: var(--orange);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    nav a {
+      text-transform: uppercase;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration-thickness: 3px;
+      text-decoration-color: var(--orange);
+      text-underline-offset: 5px;
+    }
+
+    nav a:hover {
+      background: var(--orange);
+      text-decoration: none;
+    }
+
+    .edition {
+      margin: 14px 0 0;
+      color: var(--grey);
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+      gap: 38px;
+      align-items: center;
+      padding: 32px 0 27px;
+      border-bottom: 1px dashed var(--black);
+    }
+
+    .logo-frame {
+      position: relative;
+      padding: 10px;
+      background: var(--white);
+      border: 2px solid var(--black);
+      box-shadow: 7px 7px 0 var(--black);
+      transform: rotate(-1deg);
+    }
+
+    .logo-frame::before {
+      content: "ORIGINAL";
+      position: absolute;
+      top: -12px;
+      right: 10px;
+      padding: 2px 6px;
+      color: var(--black);
+      background: var(--orange);
+      border: 1px solid var(--black);
+      font: 9px "Space Mono", monospace;
+      transform: rotate(3deg);
+    }
+
+    .logo-frame img {
+      display: block;
+      width: 100%;
+      max-height: 310px;
+      object-fit: contain;
+    }
+
+    .hero-copy {
+      position: relative;
+    }
+
+    .kicker {
+      display: inline-block;
+      padding: 3px 7px;
+      background: var(--orange);
+      color: var(--black);
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      transform: rotate(-1deg);
+    }
+
+    h1 {
+      margin: 13px 0 10px;
+      font-family: "Permanent Marker", sans-serif;
+      font-size: clamp(34px, 5vw, 53px);
+      line-height: 1.03;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+
+    .orange-underline {
+      text-decoration: underline;
+      text-decoration-color: var(--orange);
+      text-decoration-thickness: 5px;
+      text-underline-offset: 2px;
+    }
+
+    .hero-copy p {
+      max-width: 420px;
+      margin: 0 0 20px;
+      color: #3f3d39;
+      font-size: 16px;
+    }
+
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 15px;
+      border: 2px solid var(--black);
+      background: var(--orange);
+      color: var(--black);
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .15s, transform .15s;
+    }
+
+    .button:hover {
+      background: #ff994d;
+      transform: translate(-2px, -2px);
+    }
+
+    .button-dark {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .button-dark:hover {
+      background: #414141;
+    }
+
+    .downloads {
+      padding: 28px 0 30px;
+      border-bottom: 2px solid var(--black);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 13px;
+      margin-bottom: 16px;
+    }
+
+    .section-number {
+      color: var(--orange);
+      font-family: "Permanent Marker", sans-serif;
+      font-size: 19px;
+    }
+
+    h2 {
+      margin: 0;
+      font-family: "Permanent Marker", sans-serif;
+      font-size: clamp(22px, 3vw, 30px);
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .section-caption {
+      margin: -8px 0 18px;
+      color: var(--grey);
+      font-size: 13px;
+    }
+
+    .file-list {
+      border-top: 2px solid var(--black);
+    }
+
+    .file-row {
+      display: grid;
+      grid-template-columns: 45px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 13px 10px;
+      border-bottom: 1px solid var(--black);
+      background: rgba(255, 254, 249, .45);
+    }
+
+    .file-row:hover {
+      background: rgba(237, 120, 37, .09);
+    }
+
+    .file-icon {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 46px;
+      border: 2px solid var(--black);
+      background: var(--white);
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      box-shadow: 3px 3px 0 var(--orange);
+    }
+
+    .file-title {
+      margin: 0 0 3px;
+      font-family: "Permanent Marker", sans-serif;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .file-description {
+      margin: 0;
+      color: var(--grey);
+      font-size: 13px;
+    }
+
+    .file-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 7px;
+    }
+
+    .small-button {
+      display: inline-block;
+      padding: 8px 10px;
+      border: 1px solid var(--black);
+      background: var(--white);
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .small-button:hover,
+    .small-button.active {
+      background: var(--orange);
+    }
+
+    .sheet-options {
+      margin: 0;
+      padding: 17px 18px 18px 69px;
+      border-bottom: 1px solid var(--black);
+      background: #ebe8df;
+    }
+
+    .sheet-options[hidden] {
+      display: none;
+    }
+
+    .sheet-options h3 {
+      margin: 0 0 5px;
+      font-family: "Permanent Marker", sans-serif;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    .sheet-options > p {
+      margin: 0 0 13px;
+      color: #55524c;
+      font-size: 13px;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .option {
+      padding: 13px;
+      border: 1px solid var(--black);
+      background: var(--white);
+    }
+
+    .option-label {
+      display: block;
+      margin-bottom: 4px;
+      color: #b65418;
+      font: 700 10px "Space Mono", monospace;
+    }
+
+    .option h4 {
+      margin: 0 0 5px;
+      font-family: "Permanent Marker", sans-serif;
+      font-size: 17px;
+      text-transform: uppercase;
+    }
+
+    .option p {
+      min-height: 38px;
+      margin: 0 0 12px;
+      color: var(--grey);
+      font-size: 12px;
+    }
+
+    .option-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .doodle-note {
+      display: inline-block;
+      margin: 12px 0 0 6px;
+      color: #4e4a43;
+      font-size: 12px;
+      transform: rotate(-1deg);
+    }
+
+    .doodle-note strong {
+      color: #b65418;
+    }
+
+    .resources {
+      padding-top: 28px;
+    }
+
+    .resource-section {
+      margin-bottom: 34px;
+    }
+
+    .resource-section .section-head {
+      margin-bottom: 6px;
+    }
+
+    .resource-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 28px;
+    }
+
+    .resource {
+      position: relative;
+      padding: 12px 0 13px 18px;
+      border-bottom: 1px dashed rgba(32, 32, 32, .65);
+    }
+
+    .resource::before {
+      content: "/";
+      position: absolute;
+      top: 11px;
+      left: 0;
+      color: var(--orange);
+      font: 700 18px "Space Mono", monospace;
+    }
+
+    .resource h3 {
+      margin: 0 0 5px;
+      font-family: "Permanent Marker", sans-serif;
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    .resource p {
+      margin: 0 0 7px;
+      color: #514e48;
+      font-size: 13px;
+    }
+
+    .resource a {
+      font: 700 10px "Space Mono", monospace;
+      text-decoration-color: var(--orange);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      text-transform: uppercase;
+    }
+
+    .empty {
+      margin: 7px 0 0;
+      padding: 12px;
+      border-left: 3px solid var(--orange);
+      background: rgba(255, 254, 249, .6);
+      color: var(--grey);
+      font-size: 13px;
+    }
+
+    .submit-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 12px 0 10px;
+      padding: 16px;
+      border: 2px solid var(--black);
+      background: var(--white);
+      box-shadow: 5px 5px 0 var(--orange);
+      transform: rotate(-.2deg);
+    }
+
+    .submit-box h3 {
+      margin: 0 0 5px;
+      font-family: "Permanent Marker", sans-serif;
+      font-size: 19px;
+      text-transform: uppercase;
+    }
+
+    .submit-box p {
+      margin: 0;
+      color: var(--grey);
+      font-size: 13px;
+    }
+
+    .submit-box .button {
+      flex-shrink: 0;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding-top: 15px;
+      border-top: 2px solid var(--black);
+      color: var(--grey);
+      font: 10px "Space Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    .footer-stamp {
+      color: var(--black);
+      font-family: "Permanent Marker", sans-serif;
+      font-size: 13px;
+      transform: rotate(-3deg);
+    }
+
+    @media (max-width: 700px) {
+      .page {
+        padding: 20px 22px 26px;
+      }
+
+      .top-line {
+        margin: -20px -22px 20px;
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .logo-frame {
+        width: min(280px, 85%);
+        margin: 0 auto;
+      }
+
+      .hero-copy {
+        padding-bottom: 5px;
+      }
+
+      .file-row {
+        grid-template-columns: 38px minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .file-icon {
+        width: 34px;
+        height: 42px;
+      }
+
+      .file-actions {
+        grid-column: 2;
+        justify-content: flex-start;
+      }
+
+      .sheet-options {
+        padding-left: 15px;
+      }
+
+      .option-grid,
+      .resource-list {
+        grid-template-columns: 1fr;
+      }
+
+      .submit-box {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      footer {
+        flex-direction: column;
       }
     }
-  }
-  // vence a versão mais recente de cada ficha
-  for(const id of remoteIds){
-    const r=remote[id];
-    if(!lib.sheets[id]){ lib.sheets[id]=merge(DEF(),r.sheet); lib.u[id]=r.u; lib.order.push(id); }
-    else if(r.u>(lib.u[id]||0)){ lib.sheets[id]=merge(DEF(),r.sheet); lib.u[id]=r.u; dirty.delete(id); }
-  }
-  for(const id of lib.order) if(!remote[id]||(lib.u[id]||0)>remote[id].u) dirty.add(id);
-  if(!lib.order.length){ const id=newId(); lib.sheets[id]=DEF(); lib.u[id]=Date.now(); lib.order.push(id); dirty.add(id); }
-  if(!lib.sheets[lib.active]) lib.active=lib.order[0];
-  st=lib.sheets[lib.active];
-  persist(); fillText(); sync(); renderList();
-}
 
-async function runAuthAction(action){
-  if(!firebasePronto||!auth){
-    setAccountMessage('Antes, configure firebaseConfig no início do código e habilite Authentication e Firestore no Firebase Console.',true);
-    return;
-  }
-  try{ setAccountMessage('Conectando…'); await action(); }
-  catch(error){ console.error('Erro de autenticação Firebase:',error); setAccountMessage(firebaseErrorMessage(error),true); }
-}
-$('#loginEmail').addEventListener('click',()=>runAuthAction(()=>{
-  const email=emailInput.value.trim(), password=passwordInput.value;
-  if(!email||!password) throw new Error('Preencha o e-mail e a senha.');
-  return signInWithEmailAndPassword(auth,email,password);
-}));
-$('#registerEmail').addEventListener('click',()=>runAuthAction(()=>{
-  const email=emailInput.value.trim(), password=passwordInput.value;
-  if(!email||!password) throw new Error('Preencha o e-mail e a senha.');
-  if(password.length<6) throw new Error('A senha precisa ter pelo menos 6 caracteres.');
-  return createUserWithEmailAndPassword(auth,email,password);
-}));
-$('#loginGoogle').addEventListener('click',()=>runAuthAction(()=>signInWithPopup(auth,googleProvider)));
-$('#logoutAccount').addEventListener('click',()=>runAuthAction(async()=>{
-  await signOut(auth);
-  setAccountMessage('Você saiu da conta. As fichas continuam salvas neste navegador.');
-}));
-$('#syncNow').addEventListener('click',()=>runAuthAction(async()=>{
-  if(!cloudUser) throw new Error('Entre na conta primeiro.');
-  cloudLoaded=false;
-  await cloudMerge(cloudUser);
-  cloudLoaded=true;
-  await pushDirty(cloudUser);
-  setAccountMessage('Tudo sincronizado.');
-}));
-
-if(!firebasePronto){
-  setSignedInUI(null);
-  setAccountMessage('Para ativar login e nuvem, substitua os valores de firebaseConfig no código. Por enquanto, as fichas salvam só neste navegador.');
-}else{
-  onAuthStateChanged(auth,async user=>{
-    cloudLoaded=false; cloudUser=user||null; setSignedInUI(user);
-    if(!user){
-      clearTimeout(cloudTimer);
-      setAccountMessage('Você está desconectado. As fichas continuam salvas neste navegador. Entre para sincronizar.');
-      return;
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
     }
-    try{
-      const prev=localStorage.getItem(OWNER_KEY);
-      // evita misturar as fichas de uma conta anterior com as de outra no mesmo navegador
-      if(prev&&prev!==user.uid) resetLib();
-      setAccountMessage('Carregando suas fichas da nuvem…');
-      await cloudMerge(user);
-      if(cloudUser?.uid!==user.uid) return;
-      try{localStorage.setItem(OWNER_KEY,user.uid);}catch(e){}
-      cloudLoaded=true;
-      await pushDirty(user);
-      setAccountMessage('Fichas sincronizadas com a nuvem.');
-    }catch(error){
-      console.error('Erro ao carregar as fichas do Firebase:',error);
-      setAccountMessage('Não foi possível carregar as fichas: '+firebaseErrorMessage(error)+' Use "sincronizar agora" para tentar de novo.',true);
-    }
-  });
-}
+  </style>
+</head>
 
-/* ============ início ============ */
-fillText(); sync(); renderList();
-const hm=location.hash.match(/^#p(\d+)$/); show(hm?int(hm[1])-1:0,false);
-if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>areas.forEach(autosize));
-</script>
+<body>
+  <main class="page">
+    <div class="top-line"><span></span></div>
+
+    <header>
+      <a class="brand" href="#inicio">
+        NOME DO SISTEMA<span class="brand-mark">.</span>
+      </a>
+
+      <nav aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#downloads">Downloads</a>
+        <a href="#suplementos">Suplementos</a>
+        <a href="#homebrews">Homebrews</a>
+      </nav>
+    </header>
+
+    <p class="edition">Arquivo de jogo / manual do jogador / edição 01</p>
+
+    <section class="hero" id="inicio">
+      <div class="logo-frame">
+        <img src="assets/logo.png" alt="Logo do sistema de RPG">
+      </div>
+
+      <div class="hero-copy">
+        <span class="kicker">Material oficial</span>
+        <h1>REGRAS.<br>DADOS.<br><span class="orange-underline">CAOS.</span></h1>
+
+        <p>
+          O manual, as fichas e os materiais extras pra começar a jogar.
+          Baixe o que precisa e prepare sua mesa.
+        </p>
+
+        <a class="button" href="downloads/manual.pdf" download>
+          ↓ Baixar manual (PDF)
+        </a>
+      </div>
+    </section>
+
+    <section class="downloads" id="downloads">
+      <div class="section-head">
+        <span class="section-number">01/</span>
+        <h2>Arquivos para jogar</h2>
+      </div>
+
+      <p class="section-caption">
+        PDFs e materiais do sistema. A ficha tem duas versões diferentes.
+      </p>
+
+      <div class="file-list">
+        <article class="file-row">
+          <div class="file-icon">PDF</div>
+          <div>
+            <h3 class="file-title">Manual do sistema</h3>
+            <p class="file-description">Regras, criação de personagem e referências.</p>
+          </div>
+          <div class="file-actions">
+            <a class="small-button" href="downloads/manual.pdf" target="_blank" rel="noopener noreferrer">
+              Visualizar ↗
+            </a>
+            <a class="small-button active" href="downloads/manual.pdf" download>
+              Baixar ↓
+            </a>
+          </div>
+        </article>
+
+        <article class="file-row">
+          <div class="file-icon">PDF</div>
+          <div>
+            <h3 class="file-title">Ficha de personagem</h3>
+            <p class="file-description">Escolha a versão digital ou a versão para impressão.</p>
+          </div>
+          <div class="file-actions">
+            <button
+              class="small-button active"
+              type="button"
+              id="toggle-sheets"
+              aria-expanded="false"
+              aria-controls="sheet-options"
+            >
+              Escolher versão +
+            </button>
+          </div>
+        </article>
+
+        <div class="sheet-options" id="sheet-options" hidden>
+          <h3>Qual versão você quer?</h3>
+          <p>As duas são PDFs, mas foram preparadas para usos diferentes.</p>
+
+          <div class="option-grid">
+            <article class="option">
+              <span class="option-label">VERSÃO 01 / TELA</span>
+              <h4>Ficha digital</h4>
+              <p>
+                Layout pensado para visualizar e preencher no computador.
+                Não é a versão otimizada para impressão.
+              </p>
+              <div class="option-actions">
+                <a class="small-button" href="downloads/ficha-digital.pdf" target="_blank" rel="noopener noreferrer">
+                  Abrir PDF ↗
+                </a>
+                <a class="small-button active" href="downloads/ficha-digital.pdf" download>
+                  Baixar ↓
+                </a>
+              </div>
+            </article>
+
+            <article class="option">
+              <span class="option-label">VERSÃO 02 / PAPEL</span>
+              <h4>Ficha para imprimir</h4>
+              <p>
+                Diagramação preparada para papel, com espaço para preencher
+                à mão durante a sessão.
+              </p>
+              <div class="option-actions">
+                <a class="small-button" href="downloads/ficha-imprimir.pdf" target="_blank" rel="noopener noreferrer">
+                  Conferir PDF ↗
+                </a>
+                <a class="small-button active" href="downloads/ficha-imprimir.pdf" download>
+                  Baixar ↓
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <p class="doodle-note"><strong>*</strong> Dica: confira qual versão baixou antes de imprimir.</p>
+    </section>
+
+    <div class="resources">
+      <section class="resource-section" id="suplementos">
+        <div class="section-head">
+          <span class="section-number">02/</span>
+          <h2>Suplementos</h2>
+        </div>
+
+        <p class="section-caption">
+          Conteúdo adicional, regras opcionais e materiais extras.
+        </p>
+
+        <div class="resource-list" id="supplements-list"></div>
+      </section>
+
+      <section class="resource-section" id="homebrews">
+        <div class="section-head">
+          <span class="section-number">03/</span>
+          <h2>Homebrews</h2>
+        </div>
+
+        <p class="section-caption">
+          Criações da comunidade. As submissões são revisadas antes de serem publicadas.
+        </p>
+
+        <div class="submit-box">
+          <div>
+            <h3>Tem uma ideia?</h3>
+            <p>Envie sua criação para ela ser avaliada e, quem sabe, aparecer aqui.</p>
+          </div>
+
+          <a
+            class="button button-dark"
+            id="submit-homebrew"
+            href="https://docs.google.com/forms/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Enviar homebrew ↗
+          </a>
+        </div>
+
+        <div class="resource-list" id="homebrews-list"></div>
+      </section>
+    </div>
+
+    <footer>
+      <span>NOME DO SISTEMA / Arquivo de materiais</span>
+      <span class="footer-stamp">Fim da página.</span>
+    </footer>
+  </main>
+
+  <script>
+    /*
+      ADICIONE SUPLEMENTOS AQUI.
+      Copie um objeto para cada arquivo novo.
+    */
+    const supplements = [
+      /*
+      {
+        title: "Nome do suplemento",
+        description: "Descrição curta do conteúdo.",
+        url: "downloads/suplemento.pdf"
+      }
+      */
+    ];
+
+    /*
+      ADICIONE HOMEBREWS APROVADAS AQUI.
+      Os arquivos devem estar no repositório.
+    */
+    const homebrews = [
+      /*
+      {
+        title: "Nome da homebrew",
+        description: "Descrição curta da criação.",
+        url: "downloads/homebrew.pdf"
+      }
+      */
+    ];
+
+    // Substitua pelo link real do Google Forms.
+    const GOOGLE_FORMS_URL = "https://docs.google.com/forms/";
+
+    const toggleButton = document.getElementById("toggle-sheets");
+    const sheetOptions = document.getElementById("sheet-options");
+
+    toggleButton.addEventListener("click", () => {
+      const isOpen = !sheetOptions.hidden;
+
+      sheetOptions.hidden = isOpen;
+      toggleButton.setAttribute("aria-expanded", String(!isOpen));
+      toggleButton.textContent = isOpen
+        ? "Escolher versão +"
+        : "Fechar opções −";
+    });
+
+    document.getElementById("submit-homebrew").href = GOOGLE_FORMS_URL;
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    function safeURL(value) {
+      const url = String(value || "").trim();
+
+      if (/^(javascript|data|vbscript):/i.test(url)) {
+        return "#";
+      }
+
+      return escapeHTML(url);
+    }
+
+    function renderResources(items, elementId, emptyMessage) {
+      const container = document.getElementById(elementId);
+
+      if (!items.length) {
+        container.innerHTML = `
+          <p class="empty">${escapeHTML(emptyMessage)}</p>
+        `;
+        return;
+      }
+
+      container.innerHTML = items.map(item => `
+        <article class="resource">
+          <h3>${escapeHTML(item.title)}</h3>
+          <p>${escapeHTML(item.description)}</p>
+          <a href="${safeURL(item.url)}"
+             target="_blank"
+             rel="noopener noreferrer">
+            Abrir material ↗
+          </a>
+        </article>
+      `).join("");
+    }
+
+    renderResources(
+      supplements,
+      "supplements-list",
+      "Nenhum suplemento publicado por enquanto."
+    );
+
+    renderResources(
+      homebrews,
+      "homebrews-list",
+      "Nenhuma homebrew publicada ainda. Envie a sua pelo formulário."
+    );
+  </script>
 </body>
 </html>
