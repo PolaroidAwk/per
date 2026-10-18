@@ -189,62 +189,24 @@
       text-align: center;
     }
 
-    .logo-frame {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: min(100%, 460px);
-      min-height: 140px;
-      padding: 14px;
-      background: var(--white);
-      border: 2px solid var(--black);
-      box-shadow: 6px 6px 0 var(--orange);
-      transform: rotate(-1deg);
-    }
-
-    .logo-frame::before {
-      position: absolute;
-      top: -9px;
-      left: 50%;
-      width: 80px;
-      height: 19px;
-      content: "";
-      background: rgba(237, 120, 37, 0.76);
-      border: 1px solid rgba(32, 32, 32, 0.12);
-      transform: translateX(-50%) rotate(2deg);
-    }
-
     .logo {
       display: block;
-      width: 100%;
-      max-width: 400px;
-      max-height: 260px;
+      width: min(100%, 780px);
+      max-height: 320px;
+      height: auto;
+      margin: 0 auto 18px;
       object-fit: contain;
     }
 
     .logo-fallback {
       display: none;
-      padding: 16px 10px;
+      width: 100%;
+      margin: 0 auto 18px;
       font-family: var(--font-title);
-      font-size: clamp(25px, 5vw, 46px);
+      font-size: clamp(28px, 6vw, 58px);
       line-height: 1.12;
       text-align: center;
       overflow-wrap: anywhere;
-    }
-
-    .hero h1 {
-      margin: 30px 0 10px;
-      font-family: var(--font-title);
-      font-size: clamp(30px, 5.5vw, 52px);
-      font-weight: 400;
-      line-height: 1.13;
-      letter-spacing: -1px;
-      text-transform: uppercase;
-    }
-
-    .hero h1 span {
-      color: var(--orange-dark);
     }
 
     .hero-description {
@@ -731,9 +693,9 @@
         padding-top: 31px;
       }
 
-      .logo-frame {
-        min-height: 100px;
-        padding: 10px;
+      .logo {
+        max-height: 220px;
+        margin-bottom: 16px;
       }
 
       .hero-description {
@@ -808,23 +770,16 @@
       </div>
 
       <header class="hero">
-        <div class="logo-frame">
-          <img
-            class="logo"
-            id="site-logo"
-            src="assets/logo.png"
-            alt="Logo de Putaria Explícita RPG"
-          >
+        <img
+          class="logo"
+          id="site-logo"
+          src="assets/logo.png"
+          alt="Logo de Putaria Explícita RPG"
+        >
 
-          <div class="logo-fallback" id="logo-fallback">
-            Putaria Explícita RPG
-          </div>
+        <div class="logo-fallback" id="logo-fallback">
+          Putaria Explícita RPG
         </div>
-
-        <h1>
-          PUTARIA EXPLÍCITA<br>
-          <span>RPG</span>
-        </h1>
 
         <p class="hero-description">
           Um sistema de RPG de mesa independente. Pegue o manual,
